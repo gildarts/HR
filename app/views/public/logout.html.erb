@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="xxx">
+<head>
+	<title>人力資源管理</title>
+	
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="cleartype" content="on" />
+
+	<meta name="keywords" content="hr, 人力資源" />
+	<meta name="description" content="人力資源管理。" />
+	<meta name="author" content="Yao Ming Huang" />
+
+	<link rel="icon" href="/favicon.ico" />
+</head>
+<body>
+	<div ng-controller="logout"></div>
+	<script>
+		function logout($scope, $window){
+			$window.location = "<%=@logout_uri%>"
+		}
+	</script>
+	<script src="js/angular.js"></script>
+</body>
+</html>

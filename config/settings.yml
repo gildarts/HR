@@ -1,0 +1,14 @@
+#
+# hr 系統相關設定
+#
+
+Callback_Path: /login_callback
+
+Client_ID: f516dc933c4abeedfdf58dbd67923e96
+Client_Secret: d2c0a1bb5f60ba875331afb401490e29efc46df13667cb6da0da35075f3805b0
+
+OAuth_Service:
+ Authorize: https://auth.ischool.com.tw/oauth/authorize.php
+ Logout: https://auth.ischool.com.tw/logout.php
+ Token: https://auth.ischool.com.tw/oauth/token.php
+ Me: https://auth.ischool.com.tw/services/me.php

@@ -1,0 +1,71 @@
+<div class="container-fluid">
+    <!--     <div class="row" style="padding-bottom:12px">
+        <div ng-if="!global.user._error">
+            <div class="col-md-12 bg-primary">
+                <h3>{{global.user.name}}</h3>
+            </div>
+        </div>
+        <div ng-if="global.user._error">
+            <div class="col-md-12">
+                <div class="btn btn-default">{{global.user._error.message}}</div>
+            </div>
+        </div>
+    </div> -->
+    <div class="row">
+
+        <div class="col-md-8">
+<!--             <input type="text" class="form-control form-group" 
+                data-placement="bottom" data-type="info" 
+                data-animation="am-fade-and-scale" 
+                bs-tooltip="filterTooltip" data-html="true"> -->
+
+                <div class="form-group">
+                    <button data-animation="am-flip-x" type="button" 
+                    class="btn btn-default" 
+                    ng-model="selectedSummary" 
+                    data-html="true" data-placeholder="選擇一個項目" 
+                    ng-options="p.date as p.date + '  (' + p.amount_sum + ')' for p in lastSummary" bs-select></button>
+                </div>
+
+                <div style="height:800px" ng-grid="gridOptions"></div>
+        </div>
+
+        <div class="col-md-4">
+            <form class="form well" role="form">
+                <div class="form-group">
+                    <label class="control-label" for="contribute_date">日期</label>
+                    <input ng-model="selectedContribute.date" type="text" class="form-control" id="contribute_date" placeholder="範例：2014/01/15">
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="contribute_amount">時數</label>
+                    <input ng-model="selectedContribute.amount" type="text" class="form-control" id="contribute_amount" placeholder="時數">
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="contribute_project">專案</label>
+                    <br>
+                    <button data-animation="am-flip-x" type="button" class="btn btn-default btn-block" ng-model="selectedContribute.ref_project_id" data-html="true" data-placeholder="選擇一個項目" ng-options="p.id as p.name for p in global.projects" bs-select>
+                    </button>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="contribute_desc">說明</label>
+                    <textarea ng-model="selectedContribute.description" class="form-control" style="height:200px" id="contribute_desc" placeholder="說明">
+                    </textarea>
+                </div>
+
+                <br/>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-success" ng-click="newContribute()">新增</button>
+                        <button type="submit" class="btn btn-success" ng-click="saveContribute()">儲存</button>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button ng-disabled="!selectedContribute.id" type="submit" class="btn btn-danger" ng-click="deleteContribute()">刪除</button>
+                    </div>
+                </div>
+                <br/>
+
+                <!-- <div>{{selectedContribute}}</div> -->
+            </form>
+        </div>
+    </div>
+</div>
