@@ -25,6 +25,10 @@ hr.controller('contributor', function($scope, hrGlobal, hrDal) {
             enableCellEdit: false,
             width: '30%'
         }, {
+            field: 'user_id',
+            displayName: '帳號',
+            enableCellEdit: false,
+        }, {
             field: 'unit_cost',
             displayName: '單位',
             enableCellEdit: false,
