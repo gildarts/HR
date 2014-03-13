@@ -2,10 +2,7 @@
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-        	<a class="navbar-brand bg-info">
-        		<span ng-if="!global.user._error">{{global.user.name}}</span>
-        		<span ng-if="global.user._error">{{global.user._error.message}}</span>
-        	</a>
+        	<span class="navbar-brand">HR</span>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -16,15 +13,20 @@
                 <li class="dropdown">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">資料管理<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#/3">專案項目</a>
+                        <li><a href="#/project">專案項目</a>
                         </li>
-                        <li><a href="#/4">人力資源</a>
+                        <li><a href="#/contributor">人力資源</a>
                         </li>
-                        <li><a href="#/5">統計資料</a>
+                        <li><a href="#/statistical">統計資料</a>
                         </li>
                     </ul>
                 </li>
             </ul>
+            <p class='nav navbar-nav navbar-right navbar-text'>{{global.user.user_id}}</p>
+            <p class="nav navbar-nav navbar-right navbar-text">
+                <span ng-if="!global.user._error"><span class="text-primary">{{global.user.name}}</span></span>
+                <span ng-if="global.user._error">{{global.user._error.message}}</span>
+            </p>
         </div>
         <!-- /.navbar-collapse -->
     </div>

@@ -1,4 +1,6 @@
+#
 #CPContribute
+#
 class CpcontributeController < ApplicationController
 	layout false
 
@@ -6,14 +8,7 @@ class CpcontributeController < ApplicationController
 
 	# 列出目前使用者的全部 Contribute。
 	def index
-		user  = current_user()
-
-		if user.has_attribute?('_error')
-			render json: user._error
-			return
-		end
-
-		result = user.cp_contributes.foregin_info
+		result = CPContribute.foregin_info
 
 		render json: result
 	end
@@ -30,20 +25,27 @@ class CpcontributeController < ApplicationController
 		start_date = params[:start]
 		end_date = params[:end]
 
-		if (start_date && end_date)
-			render json: user.cp_contributes.foregin_info.start_date(start_date).end_date(end_date)
-			return
-		end
+		result = user.cp_contributes.foregin_info.order(date: :desc)
 
-		if (start_date)
-			render json: user.cp_contributes.foregin_info.start_date(start_date)
-			return
-		end
+		result = result.start_date(start_date) if start_date
+		result = result.end_date(end_date) if end_date
 
-		if (end_date)
-			render json: user.cp_contributes.foregin_info.end_date(end_date)
-			return
-		end
+		rsp = []
+
+		# 要這樣做是因為「日期」的格式問題。
+		result.each{|p|
+			rsp.push(
+			{
+				id: p.id,
+				ref_project_id: p.ref_project_id,
+				ref_contributor_id: p.ref_contributor_id,
+				date: p.date.strftime(DATE_FORMAT),
+				amount: p.amount,
+				description: p.description
+				})
+		}
+
+		render json: rsp
 	end
 
 	def show
@@ -53,10 +55,10 @@ class CpcontributeController < ApplicationController
 		cte = CPContribute.new()
 
 		cte.ref_contributor_id = current_user().id
-		cte.ref_project_id = params[:ref_project_id]
-		cte.date = params[:date]
-		cte.amount = params[:amount]
-		cte.description = params[:description]
+		cte.ref_project_id = params[:ref_project_id] if params[:ref_project_id]
+		cte.date = params[:date] if params[:date]
+		cte.amount = params[:amount] if params[:amount]
+		cte.description = params[:description] if params[:description]
 
 		cte.save()
 
@@ -72,13 +74,13 @@ class CpcontributeController < ApplicationController
 		cte = CPContribute.find(params[:id])
 
 		if cte == nil
-		 	render json: not_found()
-		 end
+			render json: not_found()
+		end
 
-		 cte.ref_project_id = params[:ref_project_id]
-		 cte.date = params[:date]
-		 cte.amount = params[:amount]
-		 cte.description = params[:description]
+		cte.ref_project_id = params[:ref_project_id] if params[:ref_project_id]
+		cte.date = params[:date] if params[:date]
+		cte.amount = params[:amount] if params[:amount]
+		cte.description = params[:description] if params[:description]
 
 		cte.save()
 

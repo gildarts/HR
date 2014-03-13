@@ -12,4 +12,5 @@
 
 //= require hr
 //= require hr-global
+//= require hr-dal
 //= require_tree ./controllers

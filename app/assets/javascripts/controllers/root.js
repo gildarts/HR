@@ -13,8 +13,10 @@ hr.controller('root', function($scope, $filter, hrDal, hrGlobal, hrConstant) {
     };
 
     $scope.$watch('selectedSummary', function(newVal, oldVal) {
-        if(newVal){
-            $scope.global.getCPContributes(newVal);
+        if (newVal) {
+            $scope.global.success(function(){
+                $scope.global.getCPContributes(newVal);
+            });
         }
     });
 
@@ -24,6 +26,9 @@ hr.controller('root', function($scope, $filter, hrDal, hrGlobal, hrConstant) {
     $scope.selectedContributes = []; //ng-grid 的 Binding Source，畫面上會被選擇的項目
     $scope.selectedContribute = {}; //Form 的 Binding Source> 
     $scope.selectedContributeRef = undefined; //undefined 代表未選擇任何項目。
+
+    $scope.lastSummary = [];
+    $scope.selectedSummary = undefined;
 
     $scope.gridOptions = {
         data: 'global.contributes',
@@ -37,15 +42,18 @@ hr.controller('root', function($scope, $filter, hrDal, hrGlobal, hrConstant) {
         columnDefs: [{
             field: 'date',
             displayName: '日期',
-            enableCellEdit: false
+            enableCellEdit: false,
+            visible: false
         }, {
             field: 'amount',
             displayName: '時數',
-            enableCellEdit: false
+            enableCellEdit: false,
+            width: '18%'
         }, {
             field: 'project.name',
             displayName: '專案',
-            enableCellEdit: false
+            enableCellEdit: false,
+            width: '25%'
         }, {
             field: 'description',
             displayName: '說明',
@@ -94,10 +102,10 @@ hr.controller('root', function($scope, $filter, hrDal, hrGlobal, hrConstant) {
                 */
                 $scope.selectedContributeRef = newData;
                 hrGlobal.contributes.push(newData); //將資料放進 Binding List 中。
-                $scope.selectedContributes.push(newData); //叫 ngGrid 選擇項目。
             }
 
             $scope.refreshLastSummary();
+            $scope.global.getCPContributes($scope.selectedSummary);
 
         }).error(function(data) {
             alert("Serve Bomb：\n\n" + angular.toJson(data, true));
@@ -119,15 +127,12 @@ hr.controller('root', function($scope, $filter, hrDal, hrGlobal, hrConstant) {
         });
     }
 
-    $scope.lastSummary = [];
-    $scope.selectedSummary = undefined;
-
     $scope.errorHandle = function(result) {
         alert("爆炸：\n" + angular.toJson(result.config, true));
     }
 
-    $scope.refreshLastSummary = function(){
-        hrDal.lastSummary().success(function(data) {
+    $scope.refreshLastSummary = function() {
+        hrDal.lastSummary(10).success(function(data) {
             $scope.lastSummary = data;
         }).error($scope.errorHandle);
     }

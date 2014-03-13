@@ -1,46 +1,73 @@
 // 提供全域常用資料快取與功能。
 hr.factory('hrGlobal', function(hrConstant, hrDal, $filter, $q) {
 
+    var callbacks = [];
+    var modelSuccess = false;
+    var invokeCallback = function() {
+        if (callbacks.length > 0) {
+            var cb = callbacks.slice(0); // Clone array.
+
+            angular.forEach(cb, function(val, key) {
+                callbacks.pop()();
+            });
+        }
+    }
+
     g = {
         modalResult: undefined,
         projects: [], //所有 projects。
         contributors: [], //所有 contributors。
         contributes: [], //目前登入者的所有 contribute。
         user: undefined, //目前登入者資訊。
-        sourceComplete: [], //用於待等是否所有 Row Source 都好了！
+        success: function(callback) {
+            callbacks.push(callback);
+
+            if (modelSuccess)
+                invokeCallback();
+
+        }, // next member
+        complete: function() {
+            modelSuccess = true;
+            invokeCallback();
+        }, // next member
         before_now: function(num) {
             return (new moment().subtract('days', num).format(hrConstant.MomentDatePattern));
-        },
+        }, // next member
         log: function(obj) {
             console.log(angular.toJson(obj, true));
-        },
+        }, // next member
         getProject: function(conf) {
             return $filter('filter')(this.projects, conf, true);
-        },
+        }, // next member
         getContributor: function(conf) {
             return $filter('filter')(this.contributors, conf, true);
-        },
+        }, // next member
         getCPContributes: function(dateStr) {
 
             var errorHandle = function(result) {
-                alert("爆炸：\n" + angular.toJson(result.config, true));
+                alert("爆炸(getCPContributes)：\n" + angular.toJson(result.config, true));
             }
 
-            $q.all([this.sourceComplete]).then(function(result) {
-                //預設讀取最近 14 天的資料。
-                var start = dateStr;
+            //預設讀取最近 14 天的資料。
+            var start = dateStr;
 
-                hrdal.listCPContribute(start, start).success(function(data) {
-                    g.fillRefProject(data);
-                    g.contributes = data;
-                }).error(errorHandle);
-            }, errorHandle);
-        },
-        fillRefProject: function(arr) {
+            hrdal.listCPContribute(start, start).success(function(data) {
+                g.fillRefProject(data);
+                g.contributes = data; //重點在這，更新這個資料。
+            }).error(errorHandle);
+
+        }, // next member
+        getProjectMap: function() {
+            //建立 Dictionary
             var map = {};
             angular.forEach(this.projects, function(val) {
                 map[val.id] = val;
             })
+            return map;
+        }, //next member
+        fillRefProject: function(arr) {
+            //建立 Dictionary
+            var map = this.getProjectMap();
 
             angular.forEach(arr, function(val) {
                 if (map[val.ref_project_id]) {
@@ -48,27 +75,51 @@ hr.factory('hrGlobal', function(hrConstant, hrDal, $filter, $q) {
                 } else
                     val.project = undefined;
             });
+        }, // next member
+        fillRefContributor: function(arr) {
+            //建立 Dictionary
+            var map = this.getContributorMap();
+
+            angular.forEach(arr, function(val) {
+                if (map[val.ref_contributor_id]) {
+                    val.contributor = map[val.ref_contributor_id];
+                } else
+                    val.contributor = undefined;
+            });
+        },
+        getContributorMap: function() {
+            //建立 Dictionary
+            var map = {};
+            angular.forEach(this.contributors, function(val) {
+                map[val.id] = val;
+            });
+            return map;
         }
     }
 
     var init = function() {
 
         var errorHandle = function(result) {
-            alert("爆炸：\n" + angular.toJson(result.config, true));
+            alert("爆炸(hr-global-init)：\n" + angular.toJson(result.config, true));
         }
 
-        var prj = hrDal.listProject().success(function(data) {
-            g.projects = data;
-        }).error(errorHandle);
-
-        var cutes = hrDal.listContributor().success(function(data) {
+        hrDal.listContributor().success(function(data) {
             g.contributors = data;
-        }).error(errorHandle);
 
-        g.sourceComplete.push(prj, cutes);
+            hrDal.listProject().success(function(data) {
+                g.projects = data;
+                g.fillRefContributor(g.projects);
 
-        hrDal.getCurrentContributor().success(function(data) {
-            g.user = data;
+                hrDal.getCurrentUser().success(function(data) {
+                    g.user = data;
+
+                    g.complete();
+                }).error(function(data) {
+                    alert('取得目前使用者資訊爆炸！');
+                    g.log(data);
+                });
+            }).error(errorHandle);
+
         }).error(errorHandle);
     };
 

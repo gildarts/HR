@@ -1,3 +1,6 @@
+#
+# Public
+#
 class PublicController < ApplicationController
 
 	layout "application" # 使用 /app/view/layouts/application.html.erb
@@ -36,7 +39,7 @@ class PublicController < ApplicationController
 		ctor = Contributor.where(["user_id = ?", target['mail']]).first
 
 		if !ctor # 如果找到不該 User，就導向登入失敗頁面。
-			redirect_to(action: 'auth_fail')
+			redirect_to(action: 'login_fail')
 			return
 		end
 
@@ -58,7 +61,7 @@ class PublicController < ApplicationController
 	# 登入失敗頁面。
 	def login_fail
 		session[:user] = nil
-		render 'auth_fail', layout: false
+		render 'login_fail', layout: false
 	end
 
 	# AngularJS 的主頁，其他 Action 大部份是透過 Ajax Service 的方式呼叫。
@@ -74,6 +77,10 @@ class PublicController < ApplicationController
 		@logout_uri = Settings[:OAuth_Service][:Logout]
 
 		redirect_to(@logout_uri)
+	end
+
+	def show_current_user
+		render json: current_user()
 	end
 
 private

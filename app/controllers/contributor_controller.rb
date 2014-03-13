@@ -1,27 +1,70 @@
-
+#
+# Contributor
+#
 class ContributorController < ApplicationController
 	layout false
 
 	after_filter :set_access_control_headers
 
 	def index
-		render json: Contributor.all
+		render json: Contributor.all.select('id, name, user_id, unit_cost')
 	end
 
 	def show
+		rsp = Contributor.find_by_id(params[:id])
+
+		if(!rsp)
+			render json: Error.new(NOT_FOUND, NOT_FOUND_CODE)
+			return
+		end
+
+		render json: rsp
 	end
 
 	def new
+		np = Contributor.new()
+
+		np.name = params[:name] if params[:name]
+		np.user_id = params[:user_id] if params[:user_id]
+		np.unit_cost = params[:unit_cost] if params[:unit_cost]
+
+		np.save
+
+		render json: {result: np}
 	end
 
 	def edit
+		id = params[:id]
+
+		np = Contributor.find_by_id(id)
+
+		if(!np)
+			render json: Error.new(NOT_FOUND, NOT_FOUND_CODE)
+			return
+		end
+
+		np.name = params[:name] if params[:name]
+		np.user_id = params[:user_id] if params[:user_id]
+		np.unit_cost = params[:unit_cost] if params[:unit_cost]
+
+		np.save
+
+		render json: {result: np}
 	end
 
 	def delete
-	end
+		id = params[:id]
 
-	def current
-		render json: current_user()
+		cpc = Contributor.find_by_id(id)
+
+		if(!cpc)
+			render json: Error.new(NOT_FOUND, NOT_FOUND_CODE)
+			return
+		end
+
+		cpc = cpc.destroy
+
+		render json: {message: 'success', origin_object: cpc}
 	end
 
 	# 取得最近的工作時數。
@@ -43,6 +86,8 @@ class ContributorController < ApplicationController
 
 	    day_count = params[:count]
 
+	    puts 'day count' + day_count.inspect
+
 	    result = CPContribute.find_by_sql([
 	    	'select date,sum(amount) amount_sum
 	    	from cp_contribute
@@ -52,6 +97,8 @@ class ContributorController < ApplicationController
 	    	limit ?',
 	    	user.id, day_count
 	    	])
+
+	    puts result.inspect
 
 	    rsp = []
 	    result.each{| each |
