@@ -77,6 +77,7 @@ hr.controller('statistical', function($scope, hrDal, hrGlobal) {
 
         // Create the chart
         $('#charts').highcharts({
+            credits: {enabled: false},
             chart: {
                 type: 'column'
             },
