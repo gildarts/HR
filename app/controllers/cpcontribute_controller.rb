@@ -20,7 +20,7 @@ class CpcontributeController < ApplicationController
 				ref_project_id: p.ref_project_id,
 				ref_contributor_id: p.ref_contributor_id,
 				date: p.date.strftime(DATE_FORMAT),
-				amount: p.amount / 60,
+				amount: p.amount.to_f / 60,
 				description: p.description
 				})
 		}
@@ -55,7 +55,7 @@ class CpcontributeController < ApplicationController
 				ref_project_id: p.ref_project_id,
 				ref_contributor_id: p.ref_contributor_id,
 				date: p.date.strftime(DATE_FORMAT),
-				amount: p.amount / 60,
+				amount: p.amount.to_f / 60,
 				description: p.description
 				})
 		}
@@ -72,7 +72,7 @@ class CpcontributeController < ApplicationController
 		cte.ref_contributor_id = current_user().id
 		cte.ref_project_id = params[:ref_project_id] if params[:ref_project_id]
 		cte.date = params[:date] if params[:date]
-		cte.amount = params[:amount].to_i * 60 if params[:amount]
+		cte.amount = params[:amount].to_f * 60 if params[:amount]
 		cte.description = params[:description] if params[:description]
 
 		cte.save()
@@ -94,11 +94,12 @@ class CpcontributeController < ApplicationController
 
 		cte.ref_project_id = params[:ref_project_id] if params[:ref_project_id]
 		cte.date = params[:date] if params[:date]
-		cte.amount = params[:amount].to_i * 60 if params[:amount]
+		cte.amount = params[:amount].to_f * 60 if params[:amount]
 		cte.description = params[:description] if params[:description]
 
 		cte.save()
 
+		puts "真的數字是：#{params[:amount].to_f * 60}"
 		render json: {message: 'success', result: cte}
 	end
 

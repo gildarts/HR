@@ -104,7 +104,7 @@ class ContributorController < ApplicationController
 	    result.each{| each |
 	    	rsp.push({
 	    		date: each.date.strftime(DATE_FORMAT),
-	    		amount_sum: each.amount_sum / 60
+	    		amount_sum: each.amount_sum.to_f / 60
 	    		})
 	    }
 	    render json: rsp
