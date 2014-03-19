@@ -78,6 +78,7 @@ class CpcontributeController < ApplicationController
 		cte.save()
 
 		cte = CPContribute.foregin_info.find(cte.id)
+		cte.amount = cte.amount / 60
 		#prj = Project.select(:name).find(cte.ref_project_id)
 
 		#cte.project_name = prj.name
