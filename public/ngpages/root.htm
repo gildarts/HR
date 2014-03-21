@@ -25,8 +25,8 @@
                     ng-model="selectedSummary" 
                     data-html="true" data-placeholder="選擇一個項目" 
                     ng-options="p.date as p.date + '  (' + p.amount_sum + ')' for p in lastSummary" bs-select></button>
+                    <button type="submit" class="btn btn-success" ng-click="newContribute()">新增記錄</button>
                 </div>
-
                 <div style="height:800px" ng-grid="gridOptions"></div>
         </div>
 
@@ -55,7 +55,6 @@
                 <br/>
                 <div class="row">
                     <div class="col-md-6">
-                        <button type="submit" class="btn btn-success" ng-click="newContribute()">新增</button>
                         <button type="submit" class="btn btn-success" ng-click="saveContribute()">儲存</button>
                     </div>
                     <div class="col-md-6 text-right">

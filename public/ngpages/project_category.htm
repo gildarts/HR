@@ -1,33 +1,35 @@
 <div class="row" style="padding: 5px">
     <div class="col-md-8">
+        <div class="form-group">
+            <button type="submit" class="btn btn-success" ng-click="newItem()">新增</button>
+        </div>
         <div style="height:800px" ng-grid="gridOptions"></div>
     </div>
 
-       <div class="col-md-4">
-            <form class="form well" role="form">
-                <div class="form-group">
-                    <label class="control-label" for="name">名稱</label>
-                    <input ng-model="selectedItem.name" type="text" class="form-control" id="name" placeholder="名稱">
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="desc">說明</label>
-                    <textarea ng-model="selectedItem.description" class="form-control" style="height:200px" id="desc" placeholder="說明">
-                    </textarea>
-                </div>
+    <div class="col-md-4">
+        <form class="form well" role="form">
+            <div class="form-group">
+                <label class="control-label" for="name">名稱</label>
+                <input ng-model="selectedItem.name" type="text" class="form-control" id="name" placeholder="名稱">
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="desc">說明</label>
+                <textarea ng-model="selectedItem.description" class="form-control" style="height:200px" id="desc" placeholder="說明">
+                </textarea>
+            </div>
 
-                <br/>
-                <div class="row">
-                    <div class="col-md-6">
-                        <button type="submit" class="btn btn-success" ng-click="newItem()">新增</button>
-                        <button type="submit" class="btn btn-success" ng-click="saveItem()">儲存</button>
-                    </div>
-                    <div class="col-md-6 text-right">
-                        <button ng-disabled="!selectedItem.id" type="submit" class="btn btn-danger" ng-click="deleteItem()">刪除</button>
-                    </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-success" ng-click="saveItem()">儲存</button>
                 </div>
-                <br/>
+                <div class="col-md-6 text-right">
+                    <button ng-disabled="!selectedItem.id" type="submit" class="btn btn-danger" ng-click="deleteItem()">刪除</button>
+                </div>
+            </div>
+            <br/>
 
-                <!-- <div>{{selectedContribute}}</div> -->
-            </form>
-        </div>
+            <!-- <div>{{selectedContribute}}</div> -->
+        </form>
+    </div>
 </div>
