@@ -8,6 +8,7 @@
 
       <div class="col-md-4">
             <form class="form well" role="form">
+                <div ng-show="!selectedItemRef" class="control-label text-center bg-info text-danger">(新記錄)</div>
                 <div class="form-group">
                     <label class="control-label" for="name">名稱</label>
                     <input ng-model="selectedItem.name" type="text" class="form-control" id="name" placeholder="名稱">
