@@ -15,6 +15,10 @@
                 templateUrl: '/ngpages/project.htm',
                 controller: 'project'
             })
+            .when('/project_category', {
+                templateUrl: '/ngpages/project_category.htm',
+                controller: 'projectCategory'
+            })
             .when('/contributor', {
                 templateUrl: '/ngpages/contributor.htm',
                 controller: 'contributor'

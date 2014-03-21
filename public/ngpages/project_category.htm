@@ -6,21 +6,6 @@
        <div class="col-md-4">
             <form class="form well" role="form">
                 <div class="form-group">
-                    <label class="control-label" for="contributor">頭目</label>
-                    <br>
-                    <button data-animation="am-flip-x" type="button" 
-                    class="btn btn-default btn-block" 
-                    ng-model="selectedItem.ref_contributor_id" 
-                    data-html="true" data-placeholder="選擇一個頭目" 
-                    ng-options="p.id as p.name for p in global.contributors" bs-select id="contributor">
-                    </button>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="category">分類</label>
-                    <button data-animation="am-flip-x" type="button" class="btn btn-default btn-block" ng-model="selectedItem.ref_category_id" data-html="true" data-placeholder="選擇一個項目" ng-options="p.id as p.name for p in global.project_categories" bs-select>
-                    </button>
-                </div>
-                <div class="form-group">
                     <label class="control-label" for="name">名稱</label>
                     <input ng-model="selectedItem.name" type="text" class="form-control" id="name" placeholder="名稱">
                 </div>

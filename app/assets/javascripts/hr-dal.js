@@ -40,6 +40,22 @@ hr.factory('hrDal', function($http) {
         return $http.get('project/delete/' + data);
     }
 
+    //取得所有專案的清單。
+    hrdal.listProjectCategory = function() {
+        return $http.get('projectcategory/index');
+    }
+
+    hrdal.saveProjectCategory = function(data) {
+        if (data.id)
+            return $http.post('projectcategory/edit', data);
+        else
+            return $http.post('projectcategory/new', data);
+    }
+
+    hrdal.deleteProjectCategory = function(data) {
+        return $http.get('projectcategory/delete/' + data);
+    }
+
     hrdal.listContributor = function() {
         return $http.get('contributor/index');
     }

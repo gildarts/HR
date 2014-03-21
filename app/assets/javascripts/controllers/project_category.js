@@ -1,7 +1,7 @@
 //
 // project controller
 //
-hr.controller('project', function($scope, hrGlobal, hrDal) {
+hr.controller('projectCategory', function($scope, hrGlobal, hrDal) {
     /*
     處理 Selected 相關變數。
     */
@@ -10,7 +10,7 @@ hr.controller('project', function($scope, hrGlobal, hrDal) {
     $scope.selectedItemRef = undefined; //undefined 代表未選擇任何項目。
 
     $scope.gridOptions = {
-        data: 'global.projects',
+        data: 'global.project_categories',
         selectedItems: $scope.selectedItems,
         multiSelect: false,
         showSelectionCheckbox: true,
@@ -18,17 +18,7 @@ hr.controller('project', function($scope, hrGlobal, hrDal) {
             angular.copy($scope.selectedItems[0], $scope.selectedItem);
             $scope.selectedItemRef = $scope.selectedItems[0];
         },
-        columnDefs: [{
-            field: 'contributor.name',
-            displayName: '頭目',
-            enableCellEdit: false,
-            width: '15%'
-        }, {
-            field: 'projectCategory.name',
-            displayName: '分類',
-            enableCellEdit: false,
-            width: '15%'
-        }, {
+        columnDefs: [ {
             field: 'name',
             displayName: '名稱',
             enableCellEdit: false,
@@ -51,7 +41,7 @@ hr.controller('project', function($scope, hrGlobal, hrDal) {
 
     $scope.saveItem = function() {
 
-        hrDal.saveProject($scope.selectedItem).success(function(data) {
+        hrDal.saveProjectCategory($scope.selectedItem).success(function(data) {
             /*
             data.result
                 id, ref_contributor_id, name, description, created_at, updated_at
@@ -61,16 +51,10 @@ hr.controller('project', function($scope, hrGlobal, hrDal) {
                 alert(angular.toJson(data.error))
 
             if ($scope.selectedItemRef) { //如果是已存在的項目。
-                hrGlobal.fillRefContributor([$scope.selectedItem]);
-                hrGlobal.fillRefProjectCategory([$scope.selectedItem]);
                 angular.copy($scope.selectedItem, $scope.selectedItemRef)
             } else //如果項目不存在。
             {
                 var newData = data.result;
-
-                //填入 Reference 的資料！
-                hrGlobal.fillRefContributor([newData]);
-                hrGlobal.fillRefProjectCategory([newData]);
 
                 //將 selectedContribute 整個蓋過去。
                 angular.copy(newData, $scope.selectedItem);
@@ -79,7 +63,7 @@ hr.controller('project', function($scope, hrGlobal, hrDal) {
                 如果馬上又進行資料編輯，需要指向正確的資料記錄。
                 */
                 $scope.selectedItemRef = newData;
-                hrGlobal.projects.push(newData); //將資料放進 Binding List 中。
+                hrGlobal.project_categories.push(newData); //將資料放進 Binding List 中。
             }
         }).error(function(data) {
             alert("Serve Bomb：\n\n" + angular.toJson(data, true));
@@ -87,10 +71,10 @@ hr.controller('project', function($scope, hrGlobal, hrDal) {
     }
 
     $scope.deleteItem = function() {
-        hrDal.deleteProject($scope.selectedItem.id).success(function() {
-            angular.forEach(hrGlobal.projects, function(val, key) {
+        hrDal.deleteProjectCategory($scope.selectedItem.id).success(function() {
+            angular.forEach(hrGlobal.project_category, function(val, key) {
                 if ($scope.selectedItem.id === val.id) {
-                    hrGlobal.projects.splice(key, 1);
+                    hrGlobal.project_category.splice(key, 1);
 
                     $scope.selectedItemRef = undefined; //undefined 代表未選擇任何項目。
                     $scope.selectedItem = {};

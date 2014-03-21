@@ -16,6 +16,7 @@ hr.factory('hrGlobal', function(hrConstant, hrDal, $filter, $q) {
     g = {
         modalResult: undefined,
         projects: [], //所有 projects。
+        project_categories: [],
         contributors: [], //所有 contributors。
         contributes: [], //目前登入者的所有 contribute。
         user: undefined, //目前登入者資訊。
@@ -38,6 +39,9 @@ hr.factory('hrGlobal', function(hrConstant, hrDal, $filter, $q) {
         }, // next member
         getProject: function(conf) {
             return $filter('filter')(this.projects, conf, true);
+        }, // next member
+        getProjectCategory: function(conf) {
+            return $filter('filter')(this.project_categories, conf, true);
         }, // next member
         getContributor: function(conf) {
             return $filter('filter')(this.contributors, conf, true);
@@ -65,6 +69,14 @@ hr.factory('hrGlobal', function(hrConstant, hrDal, $filter, $q) {
             })
             return map;
         }, //next member
+        getProjectCategoryMap: function() {
+            //建立 Dictionary
+            var map = {};
+            angular.forEach(this.project_categories, function(val) {
+                map[val.id] = val;
+            })
+            return map;
+        }, //next member
         fillRefProject: function(arr) {
             //建立 Dictionary
             var map = this.getProjectMap();
@@ -74,6 +86,17 @@ hr.factory('hrGlobal', function(hrConstant, hrDal, $filter, $q) {
                     val.project = map[val.ref_project_id];
                 } else
                     val.project = undefined;
+            });
+        }, // next member
+        fillRefProjectCategory: function(arr) {
+            //建立 Dictionary
+            var map = this.getProjectCategoryMap();
+
+            angular.forEach(arr, function(val) {
+                if (map[val.ref_category_id]) {
+                    val.projectCategory = map[val.ref_category_id];
+                } else
+                    val.projectCategory = undefined;
             });
         }, // next member
         fillRefContributor: function(arr) {
@@ -106,20 +129,24 @@ hr.factory('hrGlobal', function(hrConstant, hrDal, $filter, $q) {
         hrDal.listContributor().success(function(data) {
             g.contributors = data;
 
-            hrDal.listProject().success(function(data) {
-                g.projects = data;
-                g.fillRefContributor(g.projects);
+            hrDal.listProjectCategory().success(function(data) {
+                g.project_categories = data;
 
-                hrDal.getCurrentUser().success(function(data) {
-                    g.user = data;
+                hrDal.listProject().success(function(data) {
+                    g.projects = data;
+                    g.fillRefContributor(g.projects);
+                    g.fillRefProjectCategory(g.projects);
 
-                    g.complete();
-                }).error(function(data) {
-                    alert('取得目前使用者資訊爆炸！');
-                    g.log(data);
-                });
+                    hrDal.getCurrentUser().success(function(data) {
+                        g.user = data;
+
+                        g.complete();
+                    }).error(function(data) {
+                        alert('取得目前使用者資訊爆炸！');
+                        g.log(data);
+                    });
+                }).error(errorHandle);
             }).error(errorHandle);
-
         }).error(errorHandle);
     };
 

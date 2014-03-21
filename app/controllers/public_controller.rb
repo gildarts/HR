@@ -31,6 +31,8 @@ class PublicController < ApplicationController
 		# puts 'Token Response:' + response.body
 
 		token = JSON.parse(response.body)
+		
+		puts token.inspect
 
 		uri = URI("#{Settings[:OAuth_Service][:Me]}?access_token=#{token['access_token']}&token_type=bearer")
 		result = Net::HTTP.get_response(uri)

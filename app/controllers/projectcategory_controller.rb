@@ -1,17 +1,17 @@
 #
-# Project
+# Project Category
 #
-class ProjectController < ApplicationController
+class ProjectcategoryController < ApplicationController
 	layout false
 
 	after_filter :set_access_control_headers
 
 	def index
-		render json: Project.all.select("id, ref_contributor_id, ref_category_id, name, description").order(created_at: :desc)
+		render json: ProjectCategory.all
 	end
 
 	def show
-		rsp = Project.find_by_id(params[:id])
+		rsp = ProjectCategory.find_by_id(params[:id])
 
 		if(!rsp)
 			render json: Error.new(NOT_FOUND, NOT_FOUND_CODE)
@@ -22,10 +22,8 @@ class ProjectController < ApplicationController
 	end
 
 	def new
-		np = Project.new()
+		np = ProjectCategory.new()
 
-		np.ref_contributor_id = params[:ref_contributor_id] if params[:ref_contributor_id]
-		np.ref_category_id = params[:ref_category_id] if params[:ref_category_id] 
 		np.name = params[:name] if params[:name]
 		np.description = params[:description] if params[:description]
 
@@ -37,15 +35,13 @@ class ProjectController < ApplicationController
 	#缺少參數是會把資料更新為空白的。
 	def edit
 		id = params[:id]
-		p = Project.find_by_id(id)
+		p = ProjectCategory.find_by_id(id)
 
 		if(!p)
 			render json: Error.new(NOT_FOUND, NOT_FOUND_CODE)
 			return
 		end
 
-		p.ref_contributor_id = params[:ref_contributor_id] if params[:ref_contributor_id]
-		p.ref_category_id = params[:ref_category_id] if params[:ref_category_id] 
 		p.name =  params[:name] if  params[:name]
 		p.description = params[:description] if params[:description]
 
@@ -57,7 +53,7 @@ class ProjectController < ApplicationController
 	def delete
 		id = params[:id]
 
-		cpc = Project.find_by_id(id)
+		cpc = ProjectCategory.find_by_id(id)
 
 		if(!cpc)
 			render json: Error.new(NOT_FOUND, NOT_FOUND_CODE)
