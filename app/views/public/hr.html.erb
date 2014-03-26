@@ -1,38 +1,46 @@
 <nav class="navbar navbar-default" role="navigation" ng-controller="navigation">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-        	<span class="navbar-brand">HR</span>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-            	<li><a href="#/">日常記錄</a>
-            	</li>
-                <li class="dropdown">
-                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">資料管理<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#/project_category">專案類別</a>
-                        </li>
-                        <li><a href="#/project">專案項目</a>
-                        </li>
-                        <li><a href="#/contributor">人力資源</a>
-                        </li>
-                        <li><a href="#/statistical">統計資料</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-            <p class='nav navbar-nav navbar-right navbar-text'>{{global.user.user_id}}</p>
-            <p class="nav navbar-nav navbar-right navbar-text">
-                <span ng-if="!global.user._error"><span class="text-primary">{{global.user.name}}</span></span>
-                <span ng-if="global.user._error">{{global.user._error.message}}</span>
-            </p>
-        </div>
-        <!-- /.navbar-collapse -->
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <span class="navbar-brand">HR</span>
     </div>
-    <!-- /.container-fluid -->
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="#/">日常記錄</a>
+        </li>
+        <li class="dropdown">
+          <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">資料管理<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#/project_category">專案類別</a>
+            </li>
+            <li><a href="#/project">專案項目</a>
+            </li>
+            <li><a href="#/contributor">人力資源</a>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">查詢/統計<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#/recent_history">填寫狀況</a>
+            </li>
+            <li><a href="#/statistical">資源投入</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <p class='nav navbar-nav navbar-right navbar-text'>{{global.user.user_id}}</p>
+
+      <p class="nav navbar-nav navbar-right navbar-text">
+        <span ng-if="!global.user._error"><span class="text-primary">{{global.user.name}}</span></span>
+        <span ng-if="global.user._error">{{global.user._error.message}}</span>
+      </p>
+    </div>
+    <!-- /.navbar-collapse -->
+  </div>
+  <!-- /.container-fluid -->
 </nav>
 
 <div ng-view></div>

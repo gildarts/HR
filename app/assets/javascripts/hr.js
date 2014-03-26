@@ -1,5 +1,5 @@
 var hr = angular.module('hr', ['ngRoute', 'ngSanitize', 'ngAnimate',
-    'ngGrid', 'mgcrea.ngStrap']);
+    'ngGrid', 'mgcrea.ngStrap', 'ngcTableDirective']);
 
 hr.config(function ($routeProvider, $tooltipProvider) {
     $routeProvider
@@ -26,6 +26,10 @@ hr.config(function ($routeProvider, $tooltipProvider) {
         .when('/statistical', {
             templateUrl: '/ngpages/statistical.htm',
             controller: 'statistical'
+        })
+        .when('/recent_history',{
+            templateUrl: '/ngpages/recent_history.htm',
+            controller: 'recentHistory'
         })
         .otherwise({
             redirectTo: '/'

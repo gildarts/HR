@@ -7,22 +7,22 @@ class ContributorController < ApplicationController
 	after_filter :set_access_control_headers
 
 	def index
-		render json: Contributor.all.select('id, name, user_id, unit_cost')
+		render :json => Contributor.all.select('id, name, user_id, unit_cost')
 	end
 
 	def show
 		rsp = Contributor.find_by_id(params[:id])
 
-		if(!rsp)
-			render json: Error.new(NOT_FOUND, NOT_FOUND_CODE)
+		if rsp == nil
+			render :json => Error.new(NOT_FOUND, NOT_FOUND_CODE)
 			return
 		end
 
-		render json: rsp
+		render :json => rsp
 	end
 
 	def new
-		np = Contributor.new()
+		np = Contributor.new
 
 		np.name = params[:name] if params[:name]
 		np.user_id = params[:user_id] if params[:user_id]
@@ -30,7 +30,7 @@ class ContributorController < ApplicationController
 
 		np.save
 
-		render json: {result: np}
+		render :json => {:result => np}
 	end
 
 	def edit
@@ -38,8 +38,8 @@ class ContributorController < ApplicationController
 
 		np = Contributor.find_by_id(id)
 
-		if(!np)
-			render json: Error.new(NOT_FOUND, NOT_FOUND_CODE)
+		if np == nil
+			render :json => Error.new(NOT_FOUND, NOT_FOUND_CODE)
 			return
 		end
 
@@ -49,7 +49,7 @@ class ContributorController < ApplicationController
 
 		np.save
 
-		render json: {result: np}
+		render :json => {:result => np}
 	end
 
 	def delete
@@ -57,14 +57,14 @@ class ContributorController < ApplicationController
 
 		cpc = Contributor.find_by_id(id)
 
-		if(!cpc)
-			render json: Error.new(NOT_FOUND, NOT_FOUND_CODE)
+		if cpc == nil
+			render :json => Error.new(NOT_FOUND, NOT_FOUND_CODE)
 			return
 		end
 
 		cpc = cpc.destroy
 
-		render json: {message: 'success', origin_object: cpc}
+		render :json => {:message => 'success', :origin_object => cpc}
 	end
 
 	# 取得最近的工作時數。
@@ -77,10 +77,10 @@ class ContributorController < ApplicationController
 	    #     "amount_sum": 2
 	    # }]
 
-	    user  = current_user()
+	    user  = current_user
 
 	    if user.has_attribute?('_error')
-	    	render json: user._error
+	    	render :json => user._error
 	    	return
 	    end
 
@@ -98,15 +98,15 @@ class ContributorController < ApplicationController
 	    	user.id, day_count
 	    	])
 
-	    puts result.inspect
+	    #puts result.inspect
 
 	    rsp = []
 	    result.each{| each |
 	    	rsp.push({
-	    		date: each.date.strftime(DATE_FORMAT),
-	    		amount_sum: each.amount_sum.to_f / 60
+	    		:date => each.date.strftime(DATE_FORMAT),
+	    		:amount_sum => each.amount_sum.to_f / 60
 	    		})
 	    }
-	    render json: rsp
+	    render :json => rsp
 	  end
 	end

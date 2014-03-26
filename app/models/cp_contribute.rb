@@ -9,7 +9,7 @@ class CPContribute < ActiveRecord::Base
 	# 預設會將 Foreign Table 的重要資訊回傳。
 	scope :foregin_info, -> {
 		fields = 'cp_contribute.*','contributor.user_id, contributor.name user_name'
-		return select(fields).joins(:contributor).joins(:project).order(date: :desc,created_at: :desc)
+		select(fields).joins(:contributor).joins(:project).order(:date => :desc, :created_at => :desc)
 	}
 
 	# 可條件過慮日期區間。
