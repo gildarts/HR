@@ -18,3 +18,10 @@ pickle-email-*.html
 .project
 config/initializers/secret_token.rb
 /config/settings.local.yml
+
+/public/ui/index.html
+/public/ui/state1.html
+/public/ui/state1.list.html
+/public/ui/state2.html
+/public/ui/state2.list.html
+/public/ui/ui.js
