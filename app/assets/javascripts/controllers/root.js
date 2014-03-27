@@ -3,7 +3,7 @@
 // root
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-hr.controller('root', function($scope, $filter, hrDal, hrGlobal, hrConstant) {
+hr.controller('root', function($scope, $filter, $tooltip, hrDal, hrGlobal, hrConstant) {
 
     // 在 init 中指定。
     $scope.global = undefined; //全域資料
@@ -72,7 +72,14 @@ hr.controller('root', function($scope, $filter, hrDal, hrGlobal, hrConstant) {
         $scope.selectedContributeRef = undefined; //未指定值代表要新增。
     }
 
+    $scope.tooltip = {title: 'My Title'};
+
     $scope.saveContribute = function() {
+
+        if(!$scope.selectedContribute.ref_project_id){
+            alert('請選擇一個專案！');
+            return;
+        }
 
         hrDal.saveContribute($scope.selectedContribute).success(function(data) {
             /*
