@@ -72,8 +72,6 @@ hr.controller('root', function($scope, $filter, $tooltip, hrDal, hrGlobal, hrCon
         $scope.selectedContributeRef = undefined; //未指定值代表要新增。
     }
 
-    $scope.tooltip = {title: 'My Title'};
-
     $scope.saveContribute = function() {
 
         if(!$scope.selectedContribute.ref_project_id){
