@@ -47,7 +47,7 @@ hr.controller('navigation', function ($scope, hrGlobal) {
 
 //HR 的相關常數資料。
 hr.constant("hrConstant", {
-    MomentDatePattern: "YYYY/MM/DD",
-    NGDatePattern: 'yyyy/M/d'
+    MomentDatePattern: "YYYY/MM/DD"
+    //NGDatePattern: 'yyyy/M/d'
 });
 

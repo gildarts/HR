@@ -44,3 +44,8 @@ config/initializers/secret_token.rb
 /app/assets/.idea/scopes/scope_settings.xml
 /app/assets/.idea/vcs.xml
 /app/assets/.idea/workspace.xml
+/.idea/.rakeTasks
+/.idea/runConfigurations/Development__hr.xml
+/.idea/runConfigurations/Production__hr.xml
+/.idea/runConfigurations/spec__hr.xml
+/.idea/runConfigurations/test__hr.xml

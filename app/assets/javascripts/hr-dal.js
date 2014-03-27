@@ -91,7 +91,30 @@ hr.factory('hrDal', function ($http) {
         //      "date": "2014-03-04",
         //      "amount_sum": 2
         //  }]
-        return $http.get('/contributor/last_summary?count=' + dayCount)
+        return $http.get('/contributor/last_summary?count=' + dayCount);
+    }
+
+    //取得週填寫狀態。
+    hrdal.week_summary_by_contributor = function (dayCount) {
+        //[
+        //    {
+        //        "name": "呂韻如",
+        //        "ref_contributor_id": 4,
+        //        "year": 2014,
+        //        "week": 7,
+        //        "total_amount": 3,
+        //        "raw_total_amount": 180
+        //    },
+        //    {
+        //        "name": "黃耀明",
+        //        "ref_contributor_id": 3,
+        //        "year": 2014,
+        //        "week": 13,
+        //        "total_amount": 6,
+        //        "raw_total_amount": 360
+        //    }
+        //]
+        return $http.get('/cpcontribute/week_summary_by_contributor');
     }
 
     return hrdal;
