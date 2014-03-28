@@ -95,7 +95,7 @@ hr.factory('hrDal', function ($http) {
     }
 
     //取得週填寫狀態。
-    hrdal.week_summary_by_contributor = function (dayCount) {
+    hrdal.week_summary_by_contributor = function () {
         //[
         //    {
         //        "name": "呂韻如",
@@ -115,6 +115,27 @@ hr.factory('hrDal', function ($http) {
         //    }
         //]
         return $http.get('/cpcontribute/week_summary_by_contributor');
+    }
+
+    //取得日填寫狀態。
+    hrdal.day_summary_by_contributor = function () {
+        //[
+        //    {
+        //        "name": "呂韻如",
+        //        "ref_contributor_id": 4,
+        //        "date": '2014-01-18',
+        //        "total_amount": 3,
+        //        "raw_total_amount": 180
+        //    },
+        //    {
+        //        "name": "黃耀明",
+        //        "ref_contributor_id": 3,
+        //        "year": '2014-02-20',
+        //        "total_amount": 6,
+        //        "raw_total_amount": 360
+        //    }
+        //]
+        return $http.get('/cpcontribute/day_summary_by_contributor');
     }
 
     return hrdal;

@@ -65,11 +65,6 @@ class CpcontributeController < ApplicationController
 
   # 週填寫統計
   def week_summary_by_contributor
-    #select contributor.name, ref_contributor_id, EXTRACT(week FROM "date") "week", sum(amount)/60 "total_amount"
-    #from cp_contribute join contributor on cp_contribute.ref_contributor_id = contributor.id
-    #group by name, ref_contributor_id, EXTRACT(week FROM "date")
-    #order by EXTRACT(week FROM "date")
-
     user = current_user
 
     if user.has_attribute?('_error')
@@ -84,7 +79,7 @@ class CpcontributeController < ApplicationController
         'select contributor.name, ref_contributor_id, EXTRACT(year FROM "date") "year", EXTRACT(week FROM "date") "week", sum(amount)/60 "total_amount", sum(amount) raw_total_amount
         from cp_contribute join contributor on cp_contribute.ref_contributor_id = contributor.id
         group by name, ref_contributor_id, EXTRACT(year FROM "date"), EXTRACT(week FROM "date")
-        order by EXTRACT(week FROM "date")')
+        order by year, week')
 
     #result = result.start_date(start_date) if start_date
     #result = result.end_date(end_date) if end_date
@@ -99,6 +94,44 @@ class CpcontributeController < ApplicationController
               :ref_contributor_id => p.ref_contributor_id,
               :year => p.year,
               :week => p.week,
+              :total_amount => p.total_amount,
+              :raw_total_amount => p.raw_total_amount
+          })
+    }
+
+    render :json => rsp
+  end
+
+  # 週填寫統計
+  def day_summary_by_contributor
+    user = current_user
+
+    if user.has_attribute?('_error')
+      render :json => user._error
+      return
+    end
+
+    #start_date = params[:start]
+    #end_date = params[:end]
+
+    result = CPContribute.find_by_sql(
+        'select contributor.name, ref_contributor_id, date, sum(amount)/60 "total_amount", sum(amount) raw_total_amount
+        from cp_contribute join contributor on cp_contribute.ref_contributor_id = contributor.id
+        group by name, ref_contributor_id, date, EXTRACT(week FROM "date")
+        order by date')
+
+    #result = result.start_date(start_date) if start_date
+    #result = result.end_date(end_date) if end_date
+
+    rsp = []
+
+    # 要這樣做是因為「日期」的格式問題。
+    result.each { |p|
+      rsp.push(
+          {
+              :name => p.name,
+              :ref_contributor_id => p.ref_contributor_id,
+              :date => p.date,
               :total_amount => p.total_amount,
               :raw_total_amount => p.raw_total_amount
           })

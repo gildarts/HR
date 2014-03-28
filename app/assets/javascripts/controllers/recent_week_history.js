@@ -2,11 +2,7 @@
  * Created by Yaoming on 2014/3/26.
  */
 
-hr.controller('recentHistory', function ($scope, hrDal, hrGlobal, hrConstant) {
-
-//    var strdate = "2014/3/5";
-//    $scope.weekday = moment(strdate).day(1).format() + " : " + moment(strdate).day(5).format();
-//    $scope.weekofyear = moment().day(1).week(12).format();
+hr.controller('recentWeekHistory', function ($scope, hrDal, hrGlobal, hrConstant) {
 
     $scope.dangerValue = 40;
 
@@ -61,9 +57,9 @@ hr.controller('recentHistory', function ($scope, hrDal, hrGlobal, hrConstant) {
         var weekdata = [];
 
         var fields = ['姓名'];
-        angular.forEach(weeklist(), function (val, key) {
+        angular.forEach(weeklist(), function (val) {
             var weekFirst = moment().year(val.year).day(0).week(val.week);
-            fields.push(val.week + '<br/>' + weekFirst.format());
+            fields.push(val.week + ' 週<br/>' + weekFirst.format('YYYY/MM'));
         });
         weekdata.push(fields);
 

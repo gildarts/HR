@@ -31,9 +31,13 @@ hr.config(function ($routeProvider, $tooltipProvider) {
             templateUrl: '/ngpages/statistical.htm',
             controller: 'statistical'
         })
-        .when('/recent_history',{
-            templateUrl: '/ngpages/recent_history.htm',
-            controller: 'recentHistory'
+        .when('/recent_week_history',{
+            templateUrl: '/ngpages/recent_week_history.htm',
+            controller: 'recentWeekHistory'
+        })
+        .when('/recent_day_history',{
+            templateUrl: '/ngpages/recent_day_history.htm',
+            controller: 'recentDayHistory'
         })
         .otherwise({
             redirectTo: '/'
