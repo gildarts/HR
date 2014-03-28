@@ -1,15 +1,23 @@
 
+/*.cell {*/
+    /*background-color: lightgrey;*/
+    /*border: 1px solid #ffffff;*/
+/*}*/
+
 .cell {
-    background-color: lightgrey;
-    border: 1px solid #ffffff;
+    border: 1px solid black;
+    text-align: center;
 }
 
-.cell.center.first,
-.cell.right.first {
-    border-left: 2px solid darkblue;
+/*tr.header.last .cell,*/
+/*tr.middle.last .cell {*/
+    /*border: 1px solid chartreuse;*/
+/*}*/
+
+.header.row {
+    background-color: oldlace;
 }
 
-tr.header.last .cell,
-tr.middle.last .cell {
-    border-bottom: 2px solid darkblue;
+.cell.left {
+    background-color: aliceblue;
 }

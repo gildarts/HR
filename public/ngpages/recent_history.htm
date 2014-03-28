@@ -1,14 +1,17 @@
 <div>{{weekday}}</div>
 <div>{{weekofyear}}</div>
-<div ngc-table data="data"
-     style-fn="getStyle"
-     left-column-number="3" left-column-widths="'30px'"
-     center-column-number="20" center-column-widths="['40px']"
-     right-column-number="0" right-column-widths="['60px']"
-     header-row-number="1"
-     footer-row-number="0"
-     show-column-names="false"
-     show-row-numbers="false"
-     row-heights="['26px', '20px']">
-    <ngc-range top="0" bottom="10" left="0" right="20" format-fn="cellFormatRange1" style-fn="getStylea"></ngc-range>
+
+<div class="well">
+    <div ngc-table data="data"
+         style-fn="getStyle"
+         left-column-number="1" left-column-widths="'80px'"
+         center-column-number="10" center-column-widths="['85px']"
+         right-column-number="0" right-column-widths="['60px']"
+         header-row-number="1"
+         footer-row-number="0"
+         show-column-names="false"
+         show-row-numbers="false"
+         row-heights="['26px', '20px']"
+         row-number="20">
+    </div>
 </div>

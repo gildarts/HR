@@ -1,3 +1,4 @@
+
 // 提供全域常用資料快取與功能。
 hr.factory('hrGlobal', function (hrConstant, hrDal, $filter, $q) {
 
@@ -32,7 +33,7 @@ hr.factory('hrGlobal', function (hrConstant, hrDal, $filter, $q) {
             invokeCallback();
         }, // next member
         before_now: function (num) {
-            return (new moment().subtract('days', num).format(hrConstant.MomentDatePattern));
+            return (moment().subtract('days', num).format());
         }, // next member
         log: function (obj) {
             console.log(angular.toJson(obj, true));

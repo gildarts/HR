@@ -1,3 +1,7 @@
+
+//設定 moment 的預設格式化樣式。
+moment.defaultFormat = 'YYYY/MM/DD';
+
 var hr = angular.module('hr', ['ngRoute', 'ngSanitize', 'ngAnimate',
     'ngGrid', 'mgcrea.ngStrap', 'ngcTableDirective']);
 
@@ -50,4 +54,3 @@ hr.constant("hrConstant", {
     MomentDatePattern: "YYYY/MM/DD"
     //NGDatePattern: 'yyyy/M/d'
 });
-
