@@ -16,8 +16,8 @@ hr.controller('recentHistory', function ($scope, hrDal, hrGlobal, hrConstant) {
     });
 
     $scope.getStyle = function (value, row, col) {
-        if (parseInt(value) <= $scope.dangerValue)
-            return 'background-color: lightpink';
+        if (parseInt(value) > $scope.dangerValue)
+            return 'background-color: red';
         else
             return '';
     };
