@@ -67,7 +67,7 @@ hr.controller('root', function($scope, $filter, $tooltip, hrDal, hrGlobal, hrCon
         $scope.gridOptions.selectRow(0, false);
 
         $scope.selectedContribute = {
-            date: new moment().format(hrConstant.MomentDatePattern)
+            date: moment().format(hrConstant.MomentDatePattern)
         };
         $scope.selectedContributeRef = undefined; //未指定值代表要新增。
     }

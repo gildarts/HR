@@ -35,13 +35,13 @@
                 <div class="form-group">
                     <label class="control-label" for="contribute_date">日期</label>
                     <input name="date" ng-model="selectedContribute.date" type="text" class="form-control" id="contribute_date"
-                           placeholder="範例：2014/01/15" required>
+                           placeholder="範例：2014/01/15">
                      <span class="bg-warning text-danger" ng-show="form.date.$error.required">必填欄位!</span>
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="contribute_amount">時數</label>
                     <input name="amount" ng-model="selectedContribute.amount" type="text" class="form-control" id="contribute_amount"
-                           placeholder="時數" required>
+                           placeholder="時數">
                     <span class="bg-warning text-danger" ng-show="form.amount.$error.required">必填欄位!</span>
                 </div>
                 <div class="form-group">
@@ -58,7 +58,7 @@
                 <div class="form-group">
                     <label class="control-label" for="contribute_desc">說明</label>
                     <textarea ng-model="selectedContribute.description" class="form-control" style="height:100px"
-                              id="contribute_desc" placeholder="說明" name="description" required>
+                              id="contribute_desc" placeholder="說明" name="description">
                     </textarea>
                     <span class="bg-warning text-danger" ng-show="form.description.$error.required">必填欄位!</span>
                 </div>

@@ -7,15 +7,20 @@ hr.controller('recentHistory', function ($scope, hrDal, hrGlobal, hrConstant) {
 //    var strdate = "2014/3/5";
 //    $scope.weekday = moment(strdate).day(1).format() + " : " + moment(strdate).day(5).format();
 //    $scope.weekofyear = moment().day(1).week(12).format();
+
+    $scope.dangerValue = 40;
+
     $scope.data = [];
 
-    $scope.cellFormatRange1 = function (value, row, col) {
-        return value;
-    }
+    $scope.$watch('dangerValue', function (newVal, oldVal) {
+    });
 
     $scope.getStyle = function (value, row, col) {
-        return 'color: red';
-    }
+        if (parseInt(value) <= $scope.dangerValue)
+            return 'background-color: lightpink';
+        else
+            return '';
+    };
 
     hrDal.week_summary_by_contributor().success(function (data) {
 

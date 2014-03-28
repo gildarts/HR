@@ -1,17 +1,22 @@
 <div>{{weekday}}</div>
 <div>{{weekofyear}}</div>
 
+<div ng-show="false">
+    <label for="contribute_amount">Danger</label>
+    <input name="amount" ng-model="dangerValue" type="text" id="contribute_amount" placeholder="數字" required>
+</div>
+<br>
 <div class="well">
-    <div ngc-table data="data"
-         style-fn="getStyle"
-         left-column-number="1" left-column-widths="'80px'"
-         center-column-number="10" center-column-widths="['85px']"
-         right-column-number="0" right-column-widths="['60px']"
-         header-row-number="1"
-         footer-row-number="0"
-         show-column-names="false"
-         show-row-numbers="false"
-         row-heights="['26px', '20px']"
-         row-number="20">
-    </div>
+    <ngc-table data="data"
+               style-fn="getStyle"
+               left-column-number="1" left-column-widths="'80px'"
+               center-column-number="10" center-column-widths="['85px']"
+               header-row-number="1"
+               footer-row-number="0"
+               show-column-names="false"
+               show-row-numbers="false"
+               row-heights="['26px', '20px']"
+               row-number="20">
+        <ngc-range top="1" bottom="1000" left="1" right="1000" style-fn="getStyle"></ngc-range>
+    </ngc-table>
 </div>
