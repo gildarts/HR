@@ -86,7 +86,7 @@ hr.controller('recentDayHistory', function ($scope, hrDal, hrGlobal, hrConstant)
             weekdata.push(record);
         });
 
-        console.log(angular.toJson(contributors, true));
+        //console.log(angular.toJson(contributors, true));
 
         $scope.data = weekdata;
     });

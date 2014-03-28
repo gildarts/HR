@@ -1,2 +1,13 @@
+<style>
+    button {
+        margin: 2px;width: 80px
+    }
+</style>
+<div>
+    <button style="margin: 2px;width: 80px" class="btn btn-info" ng-click="refreshCharts()">全部</button>
+    <button style="margin: 2px;width: 80px" class="btn btn-success" ng-repeat="ctor in g.contributors" ng-click="refreshCharts(ctor)">{{ctor.name}}
+    </button>
+</div>
+
 <h1 class="text-center text-primary" style="padding:10px">資源投入統計</h1>
 <div id="charts" style="min-width: 310px; height: 400px; margin: 0 auto"></div>

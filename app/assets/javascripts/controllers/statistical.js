@@ -1,18 +1,27 @@
-hr.controller('statistical', function($scope, hrDal, hrGlobal) {
+hr.controller('statistical', function ($scope, $filter, hrDal, hrGlobal) {
 
     $scope.g = hrGlobal;
+    $scope.data = undefined;
 
     var g = $scope.g;
 
-    $scope.g.success(function() {
-        hrDal.listCPContributePower().success(function(data) {
+    $scope.refreshCharts = function (ctor) {
+        if (ctor)
+            init($filter('filter')($scope.data, {ref_contributor_id: ctor.id}));
+        else
+            init($scope.data);
+    };
+
+    $scope.g.success(function () {
+        hrDal.listCPContributePower().success(function (data) {
+            $scope.data = data;
             init(data);
-        }).error(function(data) {
+        }).error(function (data) {
             alert(angular.toJson(data, true));
         });
     });
 
-    var init = function(data) {
+    var init = function (data) {
         g.fillRefProject(data);
         g.fillRefContributor(data);
 
@@ -29,7 +38,7 @@ hr.controller('statistical', function($scope, hrDal, hrGlobal) {
         var projectCost = {}; //每個專案的投入量。
         var projectContributorCost = {}; //專案的每人投入量。
 
-        angular.forEach(data, function(val, key) { //計算每個專案的總量。
+        angular.forEach(data, function (val, key) { //計算每個專案的總量。
             if (val.project && val.contributor) { //表示沒有指定專案，或是找不到該專案的資訊。
 
                 if (!projectCost[val.project.id])
@@ -46,7 +55,7 @@ hr.controller('statistical', function($scope, hrDal, hrGlobal) {
                     }
                 }
 
-                if(!projectContributorCost[val.project.name].dataMap[val.contributor.name]){
+                if (!projectContributorCost[val.project.name].dataMap[val.contributor.name]) {
                     projectContributorCost[val.project.name].dataMap[val.contributor.name] = 0;
                 }
 
@@ -55,7 +64,7 @@ hr.controller('statistical', function($scope, hrDal, hrGlobal) {
         });
 
         var projectData = masterSerials.data;
-        angular.forEach(projectCost, function(val, key) {
+        angular.forEach(projectCost, function (val, key) {
             var prjName = projectMap[key].name;
 
             projectData.push({
@@ -65,8 +74,8 @@ hr.controller('statistical', function($scope, hrDal, hrGlobal) {
             });
         });
 
-        angular.forEach(projectContributorCost, function(val, key){
-            angular.forEach(val.dataMap, function(v, key){
+        angular.forEach(projectContributorCost, function (val, key) {
+            angular.forEach(val.dataMap, function (v, key) {
                 val.data.push([key, v]);
             });
 
@@ -106,14 +115,11 @@ hr.controller('statistical', function($scope, hrDal, hrGlobal) {
                     }
                 }
             },
-
             tooltip: {
                 headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
                 pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.0f}</b><br/>'
             },
-
             series: [masterSerials],
-
             drilldown: {
                 series: detailSerials
             }
