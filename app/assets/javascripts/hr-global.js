@@ -54,9 +54,9 @@ hr.factory('hrGlobal', function (hrConstant, hrDal, $filter, $q) {
             }
 
             //預設讀取最近 14 天的資料。
-            var start = dateStr;
+            //var start = dateStr;
 
-            hrdal.listCPContribute(start, start).success(function (data) {
+            hrdal.listCPContribute(dateStr, dateStr).success(function (data) {
                 g.fillRefProject(data);
                 g.contributes = data; //重點在這，更新這個資料。
             }).error(errorHandle);

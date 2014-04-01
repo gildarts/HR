@@ -1,9 +1,8 @@
-
 //設定 moment 的預設格式化樣式。
 moment.defaultFormat = 'YYYY/MM/DD';
 
 var hr = angular.module('hr', ['ngRoute', 'ngSanitize', 'ngAnimate',
-    'ngGrid', 'mgcrea.ngStrap', 'ngcTableDirective']);
+    'ngGrid', 'mgcrea.ngStrap', 'ngcTableDirective', 'checklist-model']);
 
 hr.config(function ($routeProvider, $tooltipProvider) {
     $routeProvider
@@ -31,11 +30,11 @@ hr.config(function ($routeProvider, $tooltipProvider) {
             templateUrl: '/ngpages/statistical.htm',
             controller: 'statistical'
         })
-        .when('/recent_week_history',{
+        .when('/recent_week_history', {
             templateUrl: '/ngpages/recent_week_history.htm',
             controller: 'recentWeekHistory'
         })
-        .when('/recent_day_history',{
+        .when('/recent_day_history', {
             templateUrl: '/ngpages/recent_day_history.htm',
             controller: 'recentDayHistory'
         })

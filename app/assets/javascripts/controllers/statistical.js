@@ -1,20 +1,58 @@
 hr.controller('statistical', function ($scope, $filter, hrDal, hrGlobal) {
 
     $scope.g = hrGlobal;
-    $scope.data = undefined;
+    $scope.data = [];
 
     var g = $scope.g;
 
-    $scope.refreshCharts = function (ctor) {
-        if (ctor)
-            init($filter('filter')($scope.data, {ref_contributor_id: ctor.id}));
-        else
-            init($scope.data);
+    $scope.contributors_all = true;
+    $scope.contirbutor_filter = [];
+    $scope.projects_all = true;
+    $scope.project_filter = [];
+
+    var init_watchs = function () {
+        $scope.$watch('contributors_all', function (newVal) {
+            if (newVal) {
+                angular.copy(g.contributors, $scope.contirbutor_filter);
+            } else {
+                $scope.contirbutor_filter.splice(0, $scope.contirbutor_filter.length);
+            }
+        });
+
+        $scope.$watch('projects_all', function (newVal) {
+            if (newVal) {
+                angular.copy(g.projects, $scope.project_filter);
+            } else {
+                $scope.project_filter.splice(0, $scope.project_filter.length);
+            }
+        });
+
+        $scope.$watch('contirbutor_filter + project_filter', function () {
+            var filter = $filter('filter');
+
+            var ctorFiltered = [];
+            angular.forEach($scope.contirbutor_filter, function (val) {
+                var filtered = filter($scope.data, {ref_contributor_id: val.id});
+                ctorFiltered = ctorFiltered.concat(filtered);
+            });
+
+            var prjFiltered = [];
+            angular.forEach($scope.project_filter, function (val) {
+                var filtered = filter(ctorFiltered, {ref_project_id: val.id});
+                prjFiltered = prjFiltered.concat(filtered);
+            });
+
+            console.log(prjFiltered);
+
+            init(prjFiltered);
+
+        }, true);
     };
 
     $scope.g.success(function () {
         hrDal.listCPContributePower().success(function (data) {
             $scope.data = data;
+            init_watchs();
             init(data);
         }).error(function (data) {
             alert(angular.toJson(data, true));
@@ -82,7 +120,7 @@ hr.controller('statistical', function ($scope, $filter, hrDal, hrGlobal) {
             detailSerials.push(val);
         });
 
-        g.log(detailSerials);
+        //g.log(detailSerials);
 
         // Create the chart
         $('#charts').highcharts({
