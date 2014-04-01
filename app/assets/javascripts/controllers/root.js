@@ -86,8 +86,10 @@ hr.controller('root', function($scope, $filter, $tooltip, hrDal, hrGlobal, hrCon
                 created_at, update_at
                 */
 
-            if (data.error)
-                alert(angular.toJson(data.error))
+            if (data.error){
+                alert(angular.toJson(data.error));
+                return;
+            }
 
             if ($scope.selectedContributeRef) { //如果是已存在的項目。
                 hrGlobal.fillRefProject([$scope.selectedContribute]);
@@ -111,6 +113,8 @@ hr.controller('root', function($scope, $filter, $tooltip, hrDal, hrGlobal, hrCon
 
             $scope.refreshLastSummary();
             $scope.global.getCPContributes($scope.selectedSummary);
+
+            $scope.newContribute();
 
         }).error(function(data) {
             alert("Serve Bomb：\n\n" + angular.toJson(data, true));
