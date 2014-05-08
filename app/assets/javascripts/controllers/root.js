@@ -34,7 +34,7 @@ hr.controller('root', function($scope, $filter, $tooltip, hrDal, hrGlobal, hrCon
         data: 'global.contributes',
         selectedItems: $scope.selectedContributes,
         multiSelect: false,
-        showSelectionCheckbox: true,
+        //showSelectionCheckbox: true,
         afterSelectionChange: function(rowItem, event) {
             angular.copy($scope.selectedContributes[0], $scope.selectedContribute);
             $scope.selectedContributeRef = $scope.selectedContributes[0];
@@ -144,6 +144,10 @@ hr.controller('root', function($scope, $filter, $tooltip, hrDal, hrGlobal, hrCon
         hrDal.lastSummary(10).success(function(data) {
             $scope.lastSummary = data;
         }).error($scope.errorHandle);
+    }
+
+    $scope.hope = function(){
+        alert('敬請期待！');
     }
 
     var init = function() {

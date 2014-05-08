@@ -26,7 +26,7 @@ hr.controller('projectCategory', function($scope, hrGlobal, hrDal) {
         }, {
             field: 'description',
             displayName: '說明',
-            enableCellEdit: false,
+            enableCellEdit: false
         }]
     };
 
@@ -72,9 +72,9 @@ hr.controller('projectCategory', function($scope, hrGlobal, hrDal) {
 
     $scope.deleteItem = function() {
         hrDal.deleteProjectCategory($scope.selectedItem.id).success(function() {
-            angular.forEach(hrGlobal.project_category, function(val, key) {
+            angular.forEach(hrGlobal.project_categories, function(val, key) {
                 if ($scope.selectedItem.id === val.id) {
-                    hrGlobal.project_category.splice(key, 1);
+                    hrGlobal.project_categories.splice(key, 1);
 
                     $scope.selectedItemRef = undefined; //undefined 代表未選擇任何項目。
                     $scope.selectedItem = {};

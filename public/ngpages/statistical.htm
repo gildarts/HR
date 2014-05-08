@@ -16,9 +16,9 @@
         <input type="checkbox" class="pull-left" ng-model="projects_all">全部
     </label>
     <label style="margin: 2px;width: 150px" class="btn btn-info"
-           ng-repeat="item in (g.projects | orderBy:'name':'true')">
+           ng-repeat="item in (g.projects | orderBy:'projectCategory.name':'true')">
         <input type="checkbox" class="pull-left"
-               checklist-model="project_filter" checklist-value="item">{{item.name}}
+               checklist-model="project_filter" checklist-value="item">{{'(' +item.projectCategory.name + ')' + item.name}}
     </label>
 </div>
 

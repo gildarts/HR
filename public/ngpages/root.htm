@@ -20,11 +20,12 @@
                 bs-tooltip="filterTooltip" data-html="true"> -->
 
             <div class="form-group">
-                <button data-animation="am-flip-x" type="button" class="btn btn-default" ng-model="selectedSummary"
+                <button type="button" class="btn btn-default" ng-model="selectedSummary"
                         data-html="true" data-placeholder="選擇一個項目"
                         ng-options="p.date as p.date + '  (' + p.amount_sum + ')' for p in lastSummary"
                         bs-select></button>
                 <button type="submit" class="btn btn-success" ng-click="newContribute()">新增</button>
+                <button type="submit" class="btn btn-success" ng-click="hope()">從行事歷匯入</button>
             </div>
             <div style="height:800px" ng-grid="gridOptions"></div>
         </div>
@@ -48,11 +49,10 @@
                     <label class="control-label">專案</label>
                     <br>
                     <button id="selProject"
-                            data-animation="am-flip-x"
                             class="btn btn-default btn-block"
                             ng-model="selectedContribute.ref_project_id"
                             data-html="true" data-placeholder="選擇一個項目"
-                            ng-options="p.id as p.name for p in global.projects" bs-select>
+                            ng-options="p.id as '('+ p.projectCategory.name + ')' + p.name for p in global.projects | orderBy:'projectCategory.name' " bs-select>
                     </button>
                 </div>
                 <div class="form-group">
