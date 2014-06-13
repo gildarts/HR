@@ -8,7 +8,7 @@ hr.factory('hrDal', function ($http) {
     }
 
     //列出目前登入者指定日期的 Contribute 記錄。
-    hrdal.listCPContribute = function (start, end, all) {
+    hrdal.listCPContribute = function (start, end) {
         if (start && end)
             return $http.get('cpcontribute/between_date?start=' + start + '&end=' + end);
         else if (start)
@@ -19,7 +19,7 @@ hr.factory('hrDal', function ($http) {
             return $http.get('cpcontribute/between_date');
     }
 
-    //列出目前登入者指定日期的 Contribute 記錄。
+    //列出所有的 Contribute 記錄。
     hrdal.listCPContributePower = function () {
         return $http.get('cpcontribute/index');
     }

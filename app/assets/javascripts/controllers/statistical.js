@@ -5,12 +5,33 @@ hr.controller('statistical', function ($scope, $filter, hrDal, hrGlobal) {
 
     var g = $scope.g;
 
-    $scope.contributors_all = true;
-    $scope.contirbutor_filter = [];
+    $scope.contributors_all = false;
+    $scope.contirbutor_filter = []; //畫面上顯示的項目。
     $scope.projects_all = true;
-    $scope.project_filter = [];
+    $scope.project_filter = []; //畫面上顯示的項目。
 
     var init_watchs = function () {
+        $scope.$watch('contirbutor_filter + project_filter', function () {
+            var filter = $filter('filter');
+
+            var ctorFiltered = [];
+            angular.forEach($scope.contirbutor_filter, function (val) {
+                var filtered = filter($scope.data, {ref_contributor_id: val.id}, true);
+                ctorFiltered = ctorFiltered.concat(filtered);
+            });
+
+            var prjFiltered = [];
+            angular.forEach($scope.project_filter, function (val) {
+                var filtered = filter(ctorFiltered, {ref_project_id: val.id}, true);
+                prjFiltered = prjFiltered.concat(filtered);
+            });
+
+            console.log(prjFiltered);
+
+            init(prjFiltered);
+
+        }, true);
+
         $scope.$watch('contributors_all', function (newVal) {
             if (newVal) {
                 angular.copy(g.contributors, $scope.contirbutor_filter);
@@ -26,38 +47,23 @@ hr.controller('statistical', function ($scope, $filter, hrDal, hrGlobal) {
                 $scope.project_filter.splice(0, $scope.project_filter.length);
             }
         });
-
-        $scope.$watch('contirbutor_filter + project_filter', function () {
-            var filter = $filter('filter');
-
-            var ctorFiltered = [];
-            angular.forEach($scope.contirbutor_filter, function (val) {
-                var filtered = filter($scope.data, {ref_contributor_id: val.id});
-                ctorFiltered = ctorFiltered.concat(filtered);
-            });
-
-            var prjFiltered = [];
-            angular.forEach($scope.project_filter, function (val) {
-                var filtered = filter(ctorFiltered, {ref_project_id: val.id});
-                prjFiltered = prjFiltered.concat(filtered);
-            });
-
-            console.log(prjFiltered);
-
-            init(prjFiltered);
-
-        }, true);
     };
 
     $scope.g.success(function () {
+        init_watchs();
+
         hrDal.listCPContributePower().success(function (data) {
             $scope.data = data;
-            init_watchs();
-            init(data);
+            $scope.contirbutor_filter.push(g.user);
+
         }).error(function (data) {
             alert(angular.toJson(data, true));
         });
     });
+
+    var getFullName = function(prj){
+        return "(" + prj.projectCategory.name + ")" + prj.name;
+    };
 
     var init = function (data) {
         g.fillRefProject(data);
@@ -76,6 +82,7 @@ hr.controller('statistical', function ($scope, $filter, hrDal, hrGlobal) {
         var projectCost = {}; //每個專案的投入量。
         var projectContributorCost = {}; //專案的每人投入量。
 
+        //data 裡面存放的是每一個 contribute。
         angular.forEach(data, function (val, key) { //計算每個專案的總量。
             if (val.project && val.contributor) { //表示沒有指定專案，或是找不到該專案的資訊。
 
@@ -84,6 +91,9 @@ hr.controller('statistical', function ($scope, $filter, hrDal, hrGlobal) {
 
                 projectCost[val.project.id] += val.amount * val.contributor.unit_cost;
 
+                console.log(getFullName(val.project));
+
+                //When item doesn't exist add them.
                 if (!projectContributorCost[val.project.name]) {
                     projectContributorCost[val.project.name] = {
                         id: val.project.name,
@@ -113,8 +123,8 @@ hr.controller('statistical', function ($scope, $filter, hrDal, hrGlobal) {
         });
 
         angular.forEach(projectContributorCost, function (val, key) {
-            angular.forEach(val.dataMap, function (v, key) {
-                val.data.push([key, v]);
+            angular.forEach(val.dataMap, function (v, k) {
+                val.data.push([k, v]);
             });
 
             detailSerials.push(val);

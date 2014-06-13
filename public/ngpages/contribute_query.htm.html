@@ -1,0 +1,28 @@
+<div class="row" style="padding: 5px">
+    <div class="col-md-4">
+        <form class="form well" role="form">
+            <div class="form-group">
+                <label class="control-label" for="start">開始日期</label>
+                <input ng-model="selectedItem.name" type="text" class="form-control" id="start" placeholder="名稱">
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="days">搜尋天數</label>
+                <input ng-model="selectedItem.user_id" class="form-control" id="days" placeholder="ischool 帳號" />
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="pattern">搜尋內容</label>
+                <input ng-model="selectedItem.unit_cost" class="form-control" id="pattern" placeholder="單位" />
+            </div>
+
+            <br/>
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-success" ng-click="saveItem()">搜尋</button>
+                </div>
+            </div>
+            <br/>
+
+            <!-- <div>{{selectedContribute}}</div> -->
+        </form>
+    </div>
+</div>

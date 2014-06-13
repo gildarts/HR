@@ -10,16 +10,16 @@ class ContributorController < ApplicationController
 		render :json => Contributor.all.select('id, name, user_id, unit_cost')
 	end
 
-	def show
-		rsp = Contributor.find_by_id(params[:id])
-
-		if rsp == nil
-			render :json => Error.new(NOT_FOUND, NOT_FOUND_CODE)
-			return
-		end
-
-		render :json => rsp
-	end
+	#def show
+	#	rsp = Contributor.find_by_id(params[:id])
+  #
+	#	if rsp == nil
+	#		render :json => Error.new(NOT_FOUND, NOT_FOUND_CODE)
+	#		return
+	#	end
+  #
+	#	render :json => rsp
+	#end
 
 	def new
 		np = Contributor.new

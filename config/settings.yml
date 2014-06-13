@@ -9,3 +9,6 @@ OAuth_Service:
  Logout: https://auth.ischool.com.tw/logout.php
  Token: https://auth.ischool.com.tw/oauth/token.php
  Me: https://auth.ischool.com.tw/services/me.php
+
+GAPI_ClientID: 291795125064-b2dfrq97tt6prpiimfsl19rk8fk5743r.apps.googleusercontent.com
+GAPI_ClientSecret: jmTHciqnQpr69myHUZxCaH-g

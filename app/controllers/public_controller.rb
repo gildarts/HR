@@ -11,7 +11,7 @@ class PublicController < ApplicationController
 		client_id = Settings[:Client_ID]
 		redirect_uri = get_callback_url(request) # 自動產生 callback uri。
 
-		@login_url = "#{auth_url}?client_id=#{client_id}&response_type=code&redirect_uri=#{redirect_uri}&scope=User.Mail,User.BasicInfo"
+		@login_url = "#{auth_url}?client_id=#{client_id}&response_type=code&redirect_uri=#{redirect_uri}&scope=User.Mail,User.BasicInfo&linkSignIn=google"
 	end
 
 	# 由認證中心 Callback，接著完成登入流程，然後重導至 hr Action。
@@ -63,6 +63,8 @@ class PublicController < ApplicationController
 	# 登入失敗頁面。
 	def login_fail
 		session[:user] = nil
+    session[:google] = nil
+
 		render 'login_fail', layout: false
 	end
 
@@ -75,7 +77,9 @@ class PublicController < ApplicationController
 	end
 
 	def logout
-		session[:user] = nil;
+		session[:user] = nil
+    session[:google] = nil
+
 		@logout_uri = Settings[:OAuth_Service][:Logout]
 
 		redirect_to(@logout_uri)

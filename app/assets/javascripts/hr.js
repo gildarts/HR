@@ -10,6 +10,10 @@ hr.config(function ($routeProvider, $tooltipProvider) {
             templateUrl: '/ngpages/root.htm',
             controller: 'root'
         })
+        .when('/calendar', {
+            templateUrl: '/ngpages/calendar.htm',
+            controller: 'calendar'
+        })
         .when('/second', {
             templateUrl: '/ngpages/second.htm',
             controller: 'second'
@@ -37,6 +41,10 @@ hr.config(function ($routeProvider, $tooltipProvider) {
         .when('/recent_day_history', {
             templateUrl: '/ngpages/recent_day_history.htm',
             controller: 'recentDayHistory'
+        })
+        .when('/contribute_query', {
+            templateUrl: '/ngpages/contribute_query.htm',
+            controller: 'contributeQuery'
         })
         .otherwise({
             redirectTo: '/'
