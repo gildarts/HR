@@ -7,6 +7,9 @@ hr.controller('calendar', function ($scope, $filter, $window, hrDal, hrGlobal) {
     $scope.start_date = moment().format();
 
     $scope.last_days = 1;
+
+    $scope.getting_data = false;
+
     /*
      處理 Selected 相關變數。
      */
@@ -117,6 +120,8 @@ hr.controller('calendar', function ($scope, $filter, $window, hrDal, hrGlobal) {
 //    };
 
     $scope.init_data = function () {
+        $scope.getting_data = true;
+
         $scope.events.splice(0, $scope.events.length); //刪除全部元素。
 
         hrDal.get_calendar_list().success(function (data) {
@@ -152,10 +157,13 @@ hr.controller('calendar', function ($scope, $filter, $window, hrDal, hrGlobal) {
 
                     $scope.events.push(event);
                 });
+                $scope.getting_data = false;
             }).error(function (data) {
+                $scope.getting_data = false;
                 alert("發生錯誤：\n\n" + angular.toJson(data, true));
             });
         }).error(function (data) {
+            $scope.getting_data = false;
             alert("發生錯誤：\n\n" + angular.toJson(data, true));
         });
     };
