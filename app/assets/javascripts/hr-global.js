@@ -21,6 +21,7 @@ hr.factory('hrGlobal', function (hrConstant, hrDal, $filter, $q) {
         contributors: [], //所有 contributors。
         contributes: [], //目前登入者的所有 contribute。
         user: undefined, //目前登入者資訊。
+        google_calendar_authed: false, //指示 google calendar 是否已授權。
         success: function (callback) {
             callbacks.push(callback);
 

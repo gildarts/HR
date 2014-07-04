@@ -70,7 +70,7 @@ hr.controller('root', function($scope, $filter, $tooltip, hrDal, hrGlobal, hrCon
             date: moment().format(hrConstant.MomentDatePattern)
         };
         $scope.selectedContributeRef = undefined; //未指定值代表要新增。
-    }
+    };
 
     $scope.saveContribute = function() {
 
@@ -119,7 +119,7 @@ hr.controller('root', function($scope, $filter, $tooltip, hrDal, hrGlobal, hrCon
         }).error(function(data) {
             alert("Serve Bomb：\n\n" + angular.toJson(data, true));
         });
-    }
+    };
 
     $scope.deleteContribute = function() {
         hrDal.deleteContribute($scope.selectedContribute.id).success(function() {
@@ -134,21 +134,17 @@ hr.controller('root', function($scope, $filter, $tooltip, hrDal, hrGlobal, hrCon
 
             $scope.refreshLastSummary();
         });
-    }
+    };
 
     $scope.errorHandle = function(result) {
         alert("爆炸：\n" + angular.toJson(result.config, true));
-    }
+    };
 
     $scope.refreshLastSummary = function() {
         hrDal.lastSummary(10).success(function(data) {
             $scope.lastSummary = data;
         }).error($scope.errorHandle);
-    }
-
-    $scope.hope = function(){
-        alert('敬請期待！');
-    }
+    };
 
     var init = function() {
         //先將全域共用資料放到 scope，以便存取。
@@ -156,7 +152,7 @@ hr.controller('root', function($scope, $filter, $tooltip, hrDal, hrGlobal, hrCon
 
         $scope.refreshLastSummary();
         $scope.selectedSummary = $scope.global.before_now(0);
-    }
+    };
 
     init();
 });

@@ -25,7 +25,6 @@
                         ng-options="p.date as p.date + '  (' + p.amount_sum + ')' for p in lastSummary"
                         bs-select></button>
                 <button type="submit" class="btn btn-success" ng-click="newContribute()">新增</button>
-                <button type="submit" class="btn btn-success" ng-click="hope()">從行事歷匯入</button>
             </div>
             <div style="height:800px" ng-grid="gridOptions"></div>
         </div>

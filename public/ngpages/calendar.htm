@@ -1,6 +1,67 @@
-<div>
-    <div>Hello calendar!</div>
-    <button type="submit" class="btn btn-success" ng-click="auth()">授權</button>
+<div class="row" style="padding: 5px">
+    <div class="col-md-12">
 
-    <button type="submit" class="btn btn-success" ng-click="renewToken()">Renew Access Token</button>
+        <form class="form-inline" role="form">
+
+            <button type="submit" class="btn btn-success" ng-click="auth()">取得行事曆授權</button>
+
+            <div class="form-group">
+                <label class="control-label" for="startDate">下載</label>
+                <input ng-model="start_date" class="form-control" id="startDate" style="width: 120px"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="days">的過去</label>
+                <input ng-model="last_days" class="form-control" id="days" placeholder="例：1。" style="width: 60px"/>
+                <label class="control-label" for="days">天資料(太多天會下載不下來)。</label>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success" ng-click="getEvents()">取得事件</button>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger" ng-click="import_events()">匯入事件到系統中</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row" style="padding: 5px">
+    <div class="col-md-8">
+        <div style="height:600px" ng-grid="gridOptions"></div>
+    </div>
+    <div class="col-md-4">
+        <form class="form well" role="form">
+            <div class="form-group">
+                <label class="control-label" for="summary">概述</label>
+                <input ng-model="selectedItem.summary" type="text" class="form-control" id="summary">
+            </div>
+            <div class="form-group">
+                <label class="control-label">專案</label>
+                <br>
+                <button id="selProject"
+                        class="btn btn-default btn-block"
+                        ng-model="selectedItem.ref_project_id"
+                        data-html="true" data-placeholder="選擇一個項目"
+                        ng-options="p.id as '('+ p.projectCategory.name + ')' + p.name for p in global.projects | orderBy:'projectCategory.name' " bs-select>
+                </button>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="period">時數</label>
+                <input ng-model="selectedItem.period" class="form-control" id="period"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="description">說明</label>
+                <textarea style="height:100px" ng-model="selectedItem.description" class="form-control" id="description">
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-success" ng-click="saveItem()">搜尋</button>
+                </div>
+            </div>
+            <br/>
+        </form>
+    </div>
 </div>

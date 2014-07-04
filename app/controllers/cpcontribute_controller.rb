@@ -163,11 +163,33 @@ class CpcontributeController < ApplicationController
     render :json => {:message => 'success', :result => cte}
   end
 
+  def import
+    records = params[:_json]
+
+    records.each { |record|
+
+      cte = CPContribute.new
+
+      cte.ref_contributor_id = current_user.id
+      cte.ref_project_id = record['ref_project_id']
+      cte.date = record['date']
+      cte.amount = record['amount'].to_f * 60
+      cte.description = record['description']
+      cte.start_time = record['start_time']
+
+      cte.save
+    }
+
+    render :json => {msg: 'success'}
+
+    #rencer :json => JSON.parse(request.raw_post)
+  end
+
   def edit
     cte = CPContribute.find(params[:id])
 
     if cte == nil
-      render :json => not_found
+      render :json => not_found(nil)
     end
 
     cte.ref_project_id = params[:ref_project_id] if params[:ref_project_id]

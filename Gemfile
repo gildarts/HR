@@ -44,4 +44,4 @@ gem "rails_config"
 # gem 'capistrano', group: :development
 
 # Use debugger
-# gem 'debugger', group: [:development, :test]
+# gem 'debugger'

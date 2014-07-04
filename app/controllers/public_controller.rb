@@ -79,6 +79,7 @@ class PublicController < ApplicationController
 	def logout
 		session[:user] = nil
     session[:google] = nil
+    session[:access_token] = nil
 
 		@logout_uri = Settings[:OAuth_Service][:Logout]
 
