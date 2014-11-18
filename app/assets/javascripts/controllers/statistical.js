@@ -26,7 +26,7 @@ hr.controller('statistical', function ($scope, $filter, hrDal, hrGlobal) {
                 prjFiltered = prjFiltered.concat(filtered);
             });
 
-            console.log(prjFiltered);
+            //console.log(prjFiltered);
 
             init(prjFiltered);
 
@@ -61,7 +61,7 @@ hr.controller('statistical', function ($scope, $filter, hrDal, hrGlobal) {
         });
     });
 
-    var getFullName = function(prj){
+    var getFullName = function (prj) {
         return "(" + prj.projectCategory.name + ")" + prj.name;
     };
 
@@ -70,7 +70,7 @@ hr.controller('statistical', function ($scope, $filter, hrDal, hrGlobal) {
         g.fillRefContributor(data);
 
         var projectMap = g.getProjectMap(); //專案 id->project 對照表。
-        var contributorMap = g.getContributorMap(); //人員 id->contributor 對照表。
+        //var contributorMap = g.getContributorMap(); //人員 id->contributor 對照表。
 
         var masterSerials = { //第一層資料來源。
             name: '投入量',
@@ -91,33 +91,34 @@ hr.controller('statistical', function ($scope, $filter, hrDal, hrGlobal) {
 
                 projectCost[val.project.id] += val.amount * val.contributor.unit_cost;
 
-                console.log(getFullName(val.project));
+                //console.log(getFullName(val.project));
 
                 //When item doesn't exist add them.
-                if (!projectContributorCost[val.project.name]) {
-                    projectContributorCost[val.project.name] = {
-                        id: val.project.name,
+                if (!projectContributorCost[val.project.id]) {
+                    projectContributorCost[val.project.id] = {
+                        id: val.project.id,
                         name: val.project.name,
                         dataMap: {},
                         data: []
                     }
                 }
 
-                if (!projectContributorCost[val.project.name].dataMap[val.contributor.name]) {
-                    projectContributorCost[val.project.name].dataMap[val.contributor.name] = 0;
+                if (!projectContributorCost[val.project.id].dataMap[val.contributor.name]) {
+                    projectContributorCost[val.project.id].dataMap[val.contributor.name] = 0;
                 }
 
-                projectContributorCost[val.project.name].dataMap[val.contributor.name] += val.amount;
+                projectContributorCost[val.project.id].dataMap[val.contributor.name] += val.amount;
             }
         });
 
         var projectData = masterSerials.data;
         angular.forEach(projectCost, function (val, key) {
             var prjName = projectMap[key].name;
+            var prjId = projectMap[key].id;
 
             projectData.push({
-                drilldown: prjName,
-                name: prjName,
+                drilldown: prjId,
+                name: "<a href='#/root'>" + prjName + "</a>",
                 y: val
             });
         });
@@ -141,9 +142,9 @@ hr.controller('statistical', function ($scope, $filter, hrDal, hrGlobal) {
             title: {
                 text: ''
             },
-            // subtitle: {
-            //     text: '選擇專案，檢視詳細人員投入資訊'
-            // },
+//            subtitle: {
+//                 text: '選擇專案，檢視詳細人員投入資訊'
+//            },
             xAxis: {
                 type: 'category'
             },
@@ -165,11 +166,17 @@ hr.controller('statistical', function ($scope, $filter, hrDal, hrGlobal) {
             },
             tooltip: {
                 headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.0f}</b><br/>'
+                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.0f}</b><br/>',
+                useHTML: true
             },
             series: [masterSerials],
             drilldown: {
                 series: detailSerials
+            },
+            events: {
+                drilldown: function (e) {
+                    console.log(Angular.toJson(e));
+                }
             }
         });
     }
