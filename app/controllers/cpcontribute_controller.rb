@@ -5,7 +5,32 @@ class CpcontributeController < ApplicationController
   layout false
 
   after_filter :set_access_control_headers
+  def get_user_contribute
+    
+    user = Contributor.find(params[:user_id])
+    date = params[:date]
 
+    result = user.cp_contributes.order(:date => :desc)
+
+    result = result.where( :date => date )
+
+    rsp = []
+
+    # 要這樣做是因為「日期」的格式問題。
+    result.each { |p|
+      rsp.push(
+          {
+              :id => p.id,
+              :ref_project_id => p.ref_project_id,
+              :ref_contributor_id => p.ref_contributor_id,
+              :date => p.date.strftime(DATE_FORMAT),
+              :amount => p.amount.to_f / 60,
+              :description => p.description
+          })
+    }
+
+    render :json => rsp
+  end
   # 列出目前使用者的全部 Contribute。
   def index
     result = CPContribute.foregin_info

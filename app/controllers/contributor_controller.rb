@@ -10,6 +10,34 @@ class ContributorController < ApplicationController
 		render :json => Contributor.all.select('id, name, user_id, unit_cost')
 	end
 
+	def get_user_last_summary
+		
+		user_id = params[:user_id]
+	    day_count = params[:count]
+
+	    puts 'day count' + day_count.inspect
+
+	    result = CPContribute.find_by_sql([
+	    	'select date,sum(amount) amount_sum
+	    	from cp_contribute
+	    	where ref_contributor_id=?
+	    	group by date
+	    	order by date desc
+	    	limit ?',
+	    	user_id, day_count
+	    	])
+
+	    #puts result.inspect
+
+	    rsp = []
+	    result.each{| each |
+	    	rsp.push({
+	    		:date => each.date.strftime(DATE_FORMAT),
+	    		:amount_sum => each.amount_sum.to_f / 60
+	    		})
+	    }
+	    render :json => rsp
+	end
 	#def show
 	#	rsp = Contributor.find_by_id(params[:id])
   #
@@ -108,5 +136,5 @@ class ContributorController < ApplicationController
 	    		})
 	    }
 	    render :json => rsp
-	  end
 	end
+end

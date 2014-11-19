@@ -6,7 +6,12 @@ hr.factory('hrDal', function ($http) {
     hrdal.getCurrentUser = function () {
         return $http.get('/public/show_current_user');
     };
-
+    hrdal.getUserContribute = function(user_id,date) {
+        return $http.post('/cpcontribute/get_user_contribute',{user_id:user_id,date:date});
+    }
+    hrdal.getUserLastSummary = function(user_id,count) {
+        return $http.post('/contributor/get_user_last_summary',{user_id:user_id,count:count});
+    }
     //列出目前登入者指定日期的 Contribute 記錄。
     hrdal.listCPContribute = function (start, end) {
         if (start && end)
