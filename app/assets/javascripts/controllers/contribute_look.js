@@ -42,14 +42,19 @@ hr.controller('contributeLook', function($scope, $filter, $tooltip, hrDal, hrGlo
         selectedItems: $scope.selectedContributes,
         multiSelect: false,
         afterSelectionChange: function(rowItem, event) {
-            angular.copy($scope.selectedContributes[0], $scope.selectedContribute);
-            $scope.selectedContributeRef = $scope.selectedContributes[0];
+            angular.copy($scope.selectedContributes[rowItem.rowIndex], $scope.selectedContribute);
+            $scope.selectedContributeRef = $scope.selectedContributes[rowItem.rowIndex];
         },
         columnDefs: [{
             field: 'date',
             displayName: '日期',
             enableCellEdit: false,
             visible: false
+        }, {
+            field: 'estimate',
+            displayName: '預計',
+            enableCellEdit: false,
+            width: '18%'
         }, {
             field: 'amount',
             displayName: '時數',
@@ -60,6 +65,10 @@ hr.controller('contributeLook', function($scope, $filter, $tooltip, hrDal, hrGlo
             displayName: '專案',
             enableCellEdit: false,
             width: '25%'
+        }, {
+            field: 'title',
+            displayName: 'Title',
+            enableCellEdit: false
         }, {
             field: 'description',
             displayName: '說明',

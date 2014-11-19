@@ -45,20 +45,57 @@ hr.controller('root', function($scope, $filter, $tooltip, hrDal, hrGlobal, hrCon
             enableCellEdit: false,
             visible: false
         }, {
+            field: 'estimate',
+            displayName: '預計',
+            enableCellEdit: false,
+        }, {
             field: 'amount',
             displayName: '時數',
             enableCellEdit: false,
-            width: '18%'
         }, {
             field: 'project.name',
             displayName: '專案',
             enableCellEdit: false,
             width: '25%'
         }, {
+            field: 'title',
+            displayName: 'Title',
+            enableCellEdit: false
+        }, {
             field: 'description',
             displayName: '說明',
             enableCellEdit: false
         }]
+    };
+
+    $scope.copyToToday = function() {
+        var records = [];
+        var val ;
+        for (var i = 0; i < $scope.global.contributes.length; i++) {
+            val = $scope.global.contributes[i];
+            if (!val.ref_project_id)
+                return;
+            var record = {};
+            var dt = moment();
+            record.ref_project_id = val.ref_project_id;
+            record.date = dt.format();
+            record.estimate = val.estimate - val.amount;
+            record.title = val.title;
+            record.description = val.description;
+
+            records.push(record);
+        };
+
+        if (records.length <= 0) {
+            alert('沒有資料可複製。');
+            return;
+        }
+
+        hrDal.import_CPContribute(records).success(function (rsp) {
+            alert('完成！');
+        }).error(function (data) {
+            alert("發生錯誤：\n\n" + angular.toJson(data, true));
+        });
     };
 
     $scope.newContribute = function() {

@@ -4,8 +4,7 @@
 class ContributorController < ApplicationController
 	layout false
 
-	after_filter :set_access_control_headers
-
+	before_filter :check_session
 	def index
 		render :json => Contributor.all.select('id, name, user_id, unit_cost')
 	end

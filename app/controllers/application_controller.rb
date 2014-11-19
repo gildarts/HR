@@ -17,7 +17,12 @@ class ApplicationController < ActionController::Base
     headers['Access-Control-Allow-Origin'] = '*'
     headers['Access-Control-Request-Method'] = '*'
   end
-
+  def check_session
+    if session[:user] == nil
+      render :json => { error: "We're sorry, but something went wrong." }
+      return
+    end
+  end
   # 目前是否需要登入。
   def login_required?
     (session[:user] == nil)

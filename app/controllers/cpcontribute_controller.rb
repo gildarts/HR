@@ -4,7 +4,7 @@
 class CpcontributeController < ApplicationController
   layout false
 
-  after_filter :set_access_control_headers
+  before_filter :check_session
   def get_user_contribute
     
     user = Contributor.find(params[:user_id])
@@ -25,6 +25,8 @@ class CpcontributeController < ApplicationController
               :ref_contributor_id => p.ref_contributor_id,
               :date => p.date.strftime(DATE_FORMAT),
               :amount => p.amount.to_f / 60,
+              :title => p.title,
+              :estimate => p.estimate.to_f / 60,
               :description => p.description
           })
     }
@@ -46,6 +48,8 @@ class CpcontributeController < ApplicationController
               :ref_contributor_id => p.ref_contributor_id,
               :date => p.date.strftime(DATE_FORMAT), #格式化日期
               :amount => p.amount.to_f / 60,
+              :title => p.title,
+              :estimate => p.estimate.to_f / 60,
               :description => p.description
           })
     }
@@ -81,6 +85,8 @@ class CpcontributeController < ApplicationController
               :ref_contributor_id => p.ref_contributor_id,
               :date => p.date.strftime(DATE_FORMAT),
               :amount => p.amount.to_f / 60,
+              :title => p.title,
+              :estimate => p.estimate.to_f / 60,
               :description => p.description
           })
     }
@@ -176,11 +182,13 @@ class CpcontributeController < ApplicationController
     cte.date = params[:date] if params[:date]
     cte.amount = params[:amount].to_f * 60 if params[:amount]
     cte.description = params[:description] if params[:description]
-
+    cte.title = params[:title] if params[:title]
+    cte.estimate = params[:estimate].to_f * 60 if params[:estimate]
     cte.save
 
     cte = CPContribute.foregin_info.find(cte.id)
     cte.amount = cte.amount / 60
+    cte.estimate = cte.estimate / 60
     #prj = Project.select(:name).find(cte.ref_project_id)
 
     #cte.project_name = prj.name
@@ -200,6 +208,8 @@ class CpcontributeController < ApplicationController
       cte.date = record['date']
       cte.amount = record['amount'].to_f * 60
       cte.description = record['description']
+      cte.estimate = record['estimate'].to_f * 60
+      cte.title = record['title']
       cte.start_time = record['start_time']
 
       cte.save
@@ -221,7 +231,8 @@ class CpcontributeController < ApplicationController
     cte.date = params[:date] if params[:date]
     cte.amount = params[:amount].to_f * 60 if params[:amount]
     cte.description = params[:description] if params[:description]
-
+    cte.estimate = params[:estimate].to_f * 60 if params[:estimate]
+    cte.title = params[:title] if params[:title]
     cte.save
 
     puts "真的數字是：#{params[:amount].to_f * 60}"

@@ -25,6 +25,7 @@
                         ng-options="p.date as p.date + '  (' + p.amount_sum + ')' for p in lastSummary"
                         bs-select></button>
                 <button type="submit" class="btn btn-success" ng-click="newContribute()">新增</button>
+                <button type="submit" class="btn btn-success" ng-click="copyToToday()">複製到今天(預計將扣掉時數)</button>
             </div>
             <div style="height:800px" ng-grid="gridOptions"></div>
         </div>
@@ -37,6 +38,12 @@
                     <input name="date" ng-model="selectedContribute.date" type="text" class="form-control" id="contribute_date"
                            placeholder="範例：2014/01/15">
                      <span class="bg-warning text-danger" ng-show="form.date.$error.required">必填欄位!</span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="contribute_estimate">預計</label>
+                    <input name="estimate" ng-model="selectedContribute.estimate" type="text" class="form-control" id="contribute_estimate"
+                           placeholder="預計">
+                    <span class="bg-warning text-danger" ng-show="form.estimate.$error.required">必填欄位!</span>
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="contribute_amount">時數</label>
@@ -53,6 +60,12 @@
                             data-html="true" data-placeholder="選擇一個項目"
                             ng-options="p.id as '('+ p.projectCategory.name + ')' + p.name for p in global.projects | orderBy:'projectCategory.name' " bs-select>
                     </button>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="contribute_title">Title</label>
+                    <input name="title" ng-model="selectedContribute.title" type="text" class="form-control" id="contribute_title"
+                           placeholder="Title">
+                    <span class="bg-warning text-danger" ng-show="form.title.$error.required">必填欄位!</span>
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="contribute_desc">說明</label>

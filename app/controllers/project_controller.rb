@@ -4,7 +4,7 @@
 class ProjectController < ApplicationController
 	layout false
 
-	after_filter :set_access_control_headers
+	before_filter :check_session
 
 	def index
 		render json: Project.all.select("id, ref_contributor_id, ref_category_id, name, description").order(created_at: :desc)

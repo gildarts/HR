@@ -17,6 +17,10 @@
                     <input name="date" disabled ng-model="selectedContribute.date" type="text" class="form-control" id="contribute_date" placeholder="範例：2014/01/15">
                 </div>
                 <div class="form-group">
+                    <label class="control-label" for="contribute_amount">預計</label>
+                    <input name="estimate" disabled ng-model="selectedContribute.estimate" type="text" class="form-control" id="contribute_estimate" placeholder="預計">
+                </div>
+                <div class="form-group">
                     <label class="control-label" for="contribute_amount">時數</label>
                     <input name="amount" disabled ng-model="selectedContribute.amount" type="text" class="form-control" id="contribute_amount" placeholder="時數">
                 </div>
@@ -25,6 +29,10 @@
                     <br>
                     <button id="selProject" class="btn btn-default btn-block" ng-model="selectedContribute.ref_project_id" disabled data-html="true" data-placeholder="選擇一個項目" ng-options="p.id as '('+ p.projectCategory.name + ')' + p.name for p in global.projects | orderBy:'projectCategory.name' " bs-select>
                     </button>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="contribute_title">Title</label>
+                    <input name="title" disabled ng-model="selectedContribute.title" type="text" class="form-control" id="contribute_title" placeholder="Title">
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="contribute_desc">說明</label>

@@ -41,8 +41,11 @@ hr.controller('calendar', function ($scope, $filter, $window, hrDal, hrGlobal) {
                 displayName: '開始時間',
                 enableCellEdit: false,
                 width: '20%'
-            },
-            {
+            }, {
+                field: 'estimate',
+                displayName: '預計',
+                enableCellEdit: false,
+            }, {
                 field: 'period',
                 displayName: '時數',
                 enableCellEdit: false,
@@ -92,11 +95,8 @@ hr.controller('calendar', function ($scope, $filter, $window, hrDal, hrGlobal) {
             record.date = dt.format();
             record.amount = val.period;
             record.start_time = dt.format('HH:mm:ss');
-
-            if (val.description)
-                record.description = val.summary + '\n\n' + val.description;
-            else
-                record.description = val.summary;
+            record.title = val.summary;
+            record.description = val.description;
 
             records.push(record);
         });
