@@ -21,3 +21,10 @@
 .cell.left {
     background-color: aliceblue;
 }
+
+.ui-grid-row-saving .ui-grid-cell {
+  color: darkblue !important;
+}
+.ui-grid-row-error .ui-grid-cell {
+  color: #ff0000 !important;
+}

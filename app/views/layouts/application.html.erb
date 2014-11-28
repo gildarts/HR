@@ -17,26 +17,19 @@
 
 	<%= yield %>
 
+	<script src="lib/moment/moment.min.js"></script>
+	<script src="lib/jquery/jquery-1.11.0.min.js"></script>
+
 	<!-- Bootstrap -->
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/bootstrap-additions.min.css" rel="stylesheet">
-	<link href="css/angular-motion.min.css" rel="stylesheet">
-	<link href="css/ng-grid.css" rel="stylesheet" />
-    <link href="css/ng-cells-0.3.3.css" rel="stylesheet" />
-    <!--<link href="css/angular-table.css" rel="stylesheet" />-->
-	<link href="css/root.css" rel="stylesheet" />
-
-	<script src="lib/moment/moment.min.js"></script>
-
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="lib/jquery/jquery-1.11.0.min.js"></script>
 	<script src="lib/bootstrap/bootstrap.min.js"></script>
-
+	
 	<!-- Highcharst Charts Library-->
+	<link href="css/angular-motion.min.css" rel="stylesheet">
 	<script src="lib/highcharts/highcharts.js"></script>
 	<script src="lib/highcharts/modules/data.js"></script>
 	<script src="lib/highcharts/modules/drilldown.js"></script>
-
  	<script src="lib/angularjs/angular.js"></script>
  	<script src="lib/angularjs/i18n/angular-locale_zh-tw.js"></script>
 	<script src="lib/angularjs/angular-route.min.js"></script>
@@ -44,12 +37,19 @@
 	<script src="lib/angularjs/angular-sanitize.min.js"></script>
     <script src="lib/checklist-model.js"></script>
 
+    <!--ng-grid-->
+    <link href="css/ng-grid.css" rel="stylesheet" />
  	<script src="lib/ng-grid/ng-grid.js"></script>
+ 	<link href="css/ng-cells-0.3.3.css" rel="stylesheet" />
     <script src="lib/ng-cells/ng-cells-0.3.3.js"></script>
-    <!--<script src="lib/angular-table/angular-table.js"></script>-->
+    <!---->
 	<script src="lib/angular-strap/angular-strap.min.js"></script>
 	<script src="lib/angular-strap/angular-strap.tpl.min.js"></script>
-
+	<!--ui-grid-->
+	<link href="lib/ui-grid/ui-grid-unstable.css" rel="stylesheet" />
+	<script src="lib/ui-grid/ui-grid-unstable.js"></script>
+	
+	<link href="css/root.css" rel="stylesheet" />
 	<%= javascript_include_tag('application') %>
 
 	<%= stylesheet_link_tag('application') %>

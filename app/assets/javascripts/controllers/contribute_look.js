@@ -10,6 +10,11 @@ hr.controller('contributeLook', function($scope, $filter, $tooltip, hrDal, hrGlo
     $scope.currentDate = undefined ;
     $scope.lastSummary = [];
     $scope.selectedSummary = undefined;
+    hrGlobal.then(function(data){
+        $scope.global = data ;
+        $scope.contributors = $scope.global.getContributor();
+        init();
+    });
     $scope.setCurrentCtor = function(ctor) {
         $scope.currentCtor = ctor;
         $scope.refreshLastSummary();
@@ -22,19 +27,17 @@ hr.controller('contributeLook', function($scope, $filter, $tooltip, hrDal, hrGlo
     $scope.setCurrentDate = function(date){
         $scope.selectedContributes = [] ;
         $scope.currentDate = date ;
-        $scope.global.success(function() {
-            if ($scope.currentCtor) {
-                hrDal.getUserContribute($scope.currentCtor.id,date).success(
-                    function(data){
-                        var hash = $scope.global.getProjectMap();
-                        data = [].concat(data);
-                        for (var i = 0; i < data.length; i++) {
-                            data[i].project = hash[data[i].ref_project_id] ;
-                        };
-                        $scope.selectedContributes = data;
-                    });
-            }
-        });
+        if ($scope.currentCtor) {
+            hrDal.getUserContribute($scope.currentCtor.id,date).success(
+                function(data){
+                    var hash = $scope.global.getProjectMap();
+                    data = [].concat(data);
+                    for (var i = 0; i < data.length; i++) {
+                        data[i].project = hash[data[i].ref_project_id] ;
+                    };
+                    $scope.selectedContributes = data;
+                });
+        }
     };
     
     $scope.gridOptions = {
@@ -101,7 +104,6 @@ hr.controller('contributeLook', function($scope, $filter, $tooltip, hrDal, hrGlo
 
     var init = function() {
         //先將全域共用資料放到 scope，以便存取。
-        $scope.global = hrGlobal;
         $scope.refreshLastSummary();
     };
 

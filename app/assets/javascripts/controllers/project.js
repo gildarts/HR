@@ -9,6 +9,9 @@ hr.controller('project', function($scope, hrGlobal, hrDal) {
     $scope.selectedItem = {}; //Form 的 Binding Source> 
     $scope.selectedItemRef = undefined; //undefined 代表未選擇任何項目。
 
+    hrGlobal.then(function(data){
+        $scope.global = data ;
+    });
     $scope.gridOptions = {
         data: 'global.projects',
         selectedItems: $scope.selectedItems,
@@ -61,16 +64,16 @@ hr.controller('project', function($scope, hrGlobal, hrDal) {
                 alert(angular.toJson(data.error))
 
             if ($scope.selectedItemRef) { //如果是已存在的項目。
-                hrGlobal.fillRefContributor([$scope.selectedItem]);
-                hrGlobal.fillRefProjectCategory([$scope.selectedItem]);
+                $scope.global.fillRefContributor([$scope.selectedItem]);
+                $scope.global.fillRefProjectCategory([$scope.selectedItem]);
                 angular.copy($scope.selectedItem, $scope.selectedItemRef)
             } else //如果項目不存在。
             {
                 var newData = data.result;
 
                 //填入 Reference 的資料！
-                hrGlobal.fillRefContributor([newData]);
-                hrGlobal.fillRefProjectCategory([newData]);
+                $scope.global.fillRefContributor([newData]);
+                $scope.global.fillRefProjectCategory([newData]);
 
                 //將 selectedContribute 整個蓋過去。
                 angular.copy(newData, $scope.selectedItem);
@@ -79,7 +82,7 @@ hr.controller('project', function($scope, hrGlobal, hrDal) {
                 如果馬上又進行資料編輯，需要指向正確的資料記錄。
                 */
                 $scope.selectedItemRef = newData;
-                hrGlobal.projects.push(newData); //將資料放進 Binding List 中。
+                $scope.global.projects.push(newData); //將資料放進 Binding List 中。
             }
         }).error(function(data) {
             alert("Serve Bomb：\n\n" + angular.toJson(data, true));
@@ -88,9 +91,9 @@ hr.controller('project', function($scope, hrGlobal, hrDal) {
 
     $scope.deleteItem = function() {
         hrDal.deleteProject($scope.selectedItem.id).success(function() {
-            angular.forEach(hrGlobal.projects, function(val, key) {
+            angular.forEach($scope.global.projects, function(val, key) {
                 if ($scope.selectedItem.id === val.id) {
-                    hrGlobal.projects.splice(key, 1);
+                    $scope.global.projects.splice(key, 1);
 
                     $scope.selectedItemRef = undefined; //undefined 代表未選擇任何項目。
                     $scope.selectedItem = {};
@@ -99,11 +102,6 @@ hr.controller('project', function($scope, hrGlobal, hrDal) {
         });
     }
 
-    var init = function() {
-        //先將全域共用資料放到 scope，以便存取。
-        $scope.global = hrGlobal;
-    }
-
-    init();
+    
 
 });

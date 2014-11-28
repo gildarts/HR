@@ -17,9 +17,9 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: 
+  host: 140.126.55.50
   username: postgres
-  password: 
+  password: 2a56789)
   database: hr_production
   tcp_keepalives_idle: 60 
   tcp_keepalives_interval: 60 

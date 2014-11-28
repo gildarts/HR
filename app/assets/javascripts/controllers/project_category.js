@@ -8,7 +8,9 @@ hr.controller('projectCategory', function($scope, hrGlobal, hrDal) {
     $scope.selectedItems = [];
     $scope.selectedItem = {}; //Form 的 Binding Source> 
     $scope.selectedItemRef = undefined; //undefined 代表未選擇任何項目。
-
+    hrGlobal.then(function(data){
+        $scope.global = data ;
+    });
     $scope.gridOptions = {
         data: 'global.project_categories',
         selectedItems: $scope.selectedItems,
@@ -63,7 +65,7 @@ hr.controller('projectCategory', function($scope, hrGlobal, hrDal) {
                 如果馬上又進行資料編輯，需要指向正確的資料記錄。
                 */
                 $scope.selectedItemRef = newData;
-                hrGlobal.project_categories.push(newData); //將資料放進 Binding List 中。
+                $scope.global.project_categories.push(newData); //將資料放進 Binding List 中。
             }
         }).error(function(data) {
             alert("Serve Bomb：\n\n" + angular.toJson(data, true));
@@ -72,9 +74,9 @@ hr.controller('projectCategory', function($scope, hrGlobal, hrDal) {
 
     $scope.deleteItem = function() {
         hrDal.deleteProjectCategory($scope.selectedItem.id).success(function() {
-            angular.forEach(hrGlobal.project_categories, function(val, key) {
+            angular.forEach($scope.global.project_categories, function(val, key) {
                 if ($scope.selectedItem.id === val.id) {
-                    hrGlobal.project_categories.splice(key, 1);
+                    $scope.global.project_categories.splice(key, 1);
 
                     $scope.selectedItemRef = undefined; //undefined 代表未選擇任何項目。
                     $scope.selectedItem = {};
@@ -82,12 +84,4 @@ hr.controller('projectCategory', function($scope, hrGlobal, hrDal) {
             });
         });
     }
-
-    var init = function() {
-        //先將全域共用資料放到 scope，以便存取。
-        $scope.global = hrGlobal;
-    }
-
-    init();
-
 });

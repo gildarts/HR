@@ -1,9 +1,18 @@
 hr.controller('statistical', function ($scope, $filter, hrDal, hrGlobal) {
-
-    $scope.g = hrGlobal;
+    var g ;
     $scope.data = [];
+    hrGlobal.then(function(data){
+        $scope.g = data ;
+        g = $scope.g;
+        init_watchs();
+        hrDal.listCPContributePower().success(function (data) {
+            $scope.data = data;
+            $scope.contirbutor_filter.push(g.user);
 
-    var g = $scope.g;
+        }).error(function (data) {
+            alert(angular.toJson(data, true));
+        });
+    });
 
     $scope.contributors_all = false;
     $scope.contirbutor_filter = []; //畫面上顯示的項目。
@@ -48,18 +57,6 @@ hr.controller('statistical', function ($scope, $filter, hrDal, hrGlobal) {
             }
         });
     };
-
-    $scope.g.success(function () {
-        init_watchs();
-
-        hrDal.listCPContributePower().success(function (data) {
-            $scope.data = data;
-            $scope.contirbutor_filter.push(g.user);
-
-        }).error(function (data) {
-            alert(angular.toJson(data, true));
-        });
-    });
 
     var getFullName = function (prj) {
         return "(" + prj.projectCategory.name + ")" + prj.name;

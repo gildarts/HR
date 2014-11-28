@@ -1,96 +1,16 @@
 <div class="container-fluid">
-    <!--     <div class="row" style="padding-bottom:12px">
-        <div ng-if="!global.user._error">
-            <div class="col-md-12 bg-primary">
-                <h3>{{global.user.name}}</h3>
-            </div>
-        </div>
-        <div ng-if="global.user._error">
-            <div class="col-md-12">
-                <div class="btn btn-default">{{global.user._error.message}}</div>
-            </div>
-        </div>
-    </div> -->
     <div class="row">
-
-        <div class="col-md-8">
-            <!--             <input type="text" class="form-control form-group" 
-                data-placement="bottom" data-type="info" 
-                data-animation="am-fade-and-scale" 
-                bs-tooltip="filterTooltip" data-html="true"> -->
-
+        <div class="col-md-12">
             <div class="form-group">
                 <button type="button" class="btn btn-default" ng-model="selectedSummary"
                         data-html="true" data-placeholder="選擇一個項目"
                         ng-options="p.date as p.date + '  (' + p.amount_sum + ')' for p in lastSummary"
                         bs-select></button>
-                <button type="submit" class="btn btn-success" ng-click="newContribute()">新增</button>
-                <button type="submit" class="btn btn-success" ng-click="copyToToday()">複製到今天(預計將扣掉時數)</button>
+                <button type="submit" class="btn btn-success" ng-click="copyToToday()">複製到今天</button>
+                <button type="submit" class="btn btn-danger" ng-click="deleteSelectedRows()">刪除選擇行</button>
+                <span ng-show="saving">Saving...</span>
             </div>
-            <div style="height:800px" ng-grid="gridOptions"></div>
-        </div>
-
-        <div class="col-md-4">
-            <form class="form well" role="form" name="form">
-                <div ng-show="!selectedContributeRef" class="control-label text-center bg-info text-danger">(新記錄)</div>
-                <div class="form-group">
-                    <label class="control-label" for="contribute_date">日期</label>
-                    <input name="date" ng-model="selectedContribute.date" type="text" class="form-control" id="contribute_date"
-                           placeholder="範例：2014/01/15">
-                     <span class="bg-warning text-danger" ng-show="form.date.$error.required">必填欄位!</span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="contribute_estimate">預計</label>
-                    <input name="estimate" ng-model="selectedContribute.estimate" type="text" class="form-control" id="contribute_estimate"
-                           placeholder="預計">
-                    <span class="bg-warning text-danger" ng-show="form.estimate.$error.required">必填欄位!</span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="contribute_amount">時數</label>
-                    <input name="amount" ng-model="selectedContribute.amount" type="text" class="form-control" id="contribute_amount"
-                           placeholder="時數">
-                    <span class="bg-warning text-danger" ng-show="form.amount.$error.required">必填欄位!</span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">專案</label>
-                    <br>
-                    <button id="selProject"
-                            class="btn btn-default btn-block"
-                            ng-model="selectedContribute.ref_project_id"
-                            data-html="true" data-placeholder="選擇一個項目"
-                            ng-options="p.id as '('+ p.projectCategory.name + ')' + p.name for p in global.projects | orderBy:'projectCategory.name' " bs-select>
-                    </button>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="contribute_title">Title</label>
-                    <input name="title" ng-model="selectedContribute.title" type="text" class="form-control" id="contribute_title"
-                           placeholder="Title">
-                    <span class="bg-warning text-danger" ng-show="form.title.$error.required">必填欄位!</span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="contribute_desc">說明</label>
-                    <textarea ng-model="selectedContribute.description" class="form-control" style="height:100px"
-                              id="contribute_desc" placeholder="說明" name="description">
-                    </textarea>
-                    <span class="bg-warning text-danger" ng-show="form.description.$error.required">必填欄位!</span>
-                </div>
-
-                <br/>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <button type="submit" class="btn btn-success" ng-click="saveContribute()">儲存 & 新增</button>
-                    </div>
-                    <div class="col-md-6 text-right">
-                        <button ng-disabled="!selectedContribute.id" type="submit" class="btn btn-danger"
-                                ng-click="deleteContribute()">刪除
-                        </button>
-                    </div>
-                </div>
-                <br/>
-
-                <!-- <div>{{selectedContribute}}</div> -->
-            </form>
+            <div ui-grid-edit ui-grid-row-edit ui-grid-cellNav ui-grid="gridOptions"   ui-grid-selection style="width: 100%; height: 400px" ></div>
         </div>
     </div>
 </div>

@@ -1,5 +1,5 @@
 <div class="btn-group">
-    <label style="margin: 2px;width: 80px" class="btn" ng-class="{true:'btn-primary',false:'btn-default'}[currentCtor.id==ctor.id]" ng-repeat="ctor in (global.contributors | orderBy:'name':'true')" ng-click="setCurrentCtor(ctor)">{{ctor.name}}
+    <label style="margin: 2px;width: 80px" class="btn" ng-class="{true:'btn-primary',false:'btn-default'}[currentCtor.id==ctor.id]" ng-repeat="ctor in (contributors | orderBy:'name':'true')" ng-click="setCurrentCtor(ctor)">{{ctor.name}}
     </label>
 </div>
 <div class="container-fluid">

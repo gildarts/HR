@@ -178,7 +178,11 @@ class CpcontributeController < ApplicationController
     cte = CPContribute.new
 
     cte.ref_contributor_id = current_user.id
-    cte.ref_project_id = params[:ref_project_id] if params[:ref_project_id]
+    if !params[:ref_project_id] || !params[:date] || !params[:title]
+      render :status => 400,:json=>{}
+      return  
+    end
+    cte.ref_project_id = params[:ref_project_id]
     cte.date = params[:date] if params[:date]
     cte.amount = params[:amount].to_f * 60 if params[:amount]
     cte.description = params[:description] if params[:description]
@@ -193,7 +197,7 @@ class CpcontributeController < ApplicationController
 
     #cte.project_name = prj.name
 
-    render :json => {:message => 'success', :result => cte}
+    render :json => cte
   end
 
   def import
@@ -236,7 +240,7 @@ class CpcontributeController < ApplicationController
     cte.save
 
     puts "真的數字是：#{params[:amount].to_f * 60}"
-    render :json => {:message => 'success', :result => cte}
+    render :json => cte
   end
 
   def delete
@@ -245,6 +249,6 @@ class CpcontributeController < ApplicationController
     cpc = CPContribute.find(id)
     cpc.destroy
 
-    render :json => {:message => 'success'}
+    render :json => {:id => params[:id]}
   end
 end

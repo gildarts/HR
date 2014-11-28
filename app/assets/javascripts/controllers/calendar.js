@@ -1,7 +1,5 @@
 hr.controller('calendar', function ($scope, $filter, $window, hrDal, hrGlobal) {
 
-    $scope.global = hrGlobal;
-
     $scope.g_datetime_pattern = 'YYYY-MM-DDTHH:mm:ss+08:00';
 
     $scope.start_date = moment().format();
@@ -9,7 +7,9 @@ hr.controller('calendar', function ($scope, $filter, $window, hrDal, hrGlobal) {
     $scope.last_days = 1;
 
     $scope.getting_data = false;
-
+    hrGlobal.then(function(data){
+        $scope.global = data ;
+    });
     /*
      處理 Selected 相關變數。
      */
@@ -61,7 +61,7 @@ hr.controller('calendar', function ($scope, $filter, $window, hrDal, hrGlobal) {
 
     $scope.$watch('selectedItem.ref_project_id', function (newVal, oldVal) {
         if ($scope.selectedItem) {
-            hrGlobal.fillRefProject([$scope.selectedItem]);
+            $scope.global.fillRefProject([$scope.selectedItem]);
 
             if ($scope.selectedItem.project)
                 $scope.selectedItem.project_name = "(" + $scope.selectedItem.project.projectCategory.name + ")" + $scope.selectedItem.project.name;

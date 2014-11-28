@@ -10,6 +10,7 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 
+//= require config
 //= require hr
 //= require hr-global
 //= require hr-dal
