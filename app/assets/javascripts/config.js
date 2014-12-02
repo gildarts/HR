@@ -44,6 +44,10 @@ var config = function($routeProvider, $tooltipProvider) {
             templateUrl: '/ngpages/contribute_look.htm',
             controller: 'contributeLook'
         })
+        .when('/contributes', {
+            templateUrl: '/ngpages/contributes.htm',
+            controller: 'contributes'
+        })
         .otherwise({
             redirectTo: '/'
         });

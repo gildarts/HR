@@ -9,6 +9,9 @@ hr.factory('hrDal', function ($http) {
     hrdal.getUserContribute = function(user_id,date) {
         return $http.post('/cpcontribute/get_user_contribute',{user_id:user_id,date:date});
     }
+    hrdal.getUserContributes = function(user_id,start_date,end_date) {
+        return $http.post('/cpcontribute/get_user_contributes',{user_id:user_id,start_date:start_date,end_date:end_date});
+    }
     hrdal.getUserLastSummary = function(user_id,count) {
         return $http.post('/contributor/get_user_last_summary',{user_id:user_id,count:count});
     }

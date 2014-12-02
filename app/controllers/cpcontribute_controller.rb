@@ -6,13 +6,40 @@ class CpcontributeController < ApplicationController
 
   before_filter :check_session
   def get_user_contribute
-    
     user = Contributor.find(params[:user_id])
     date = params[:date]
 
     result = user.cp_contributes.order(:date => :desc)
-
     result = result.where( :date => date )
+
+    rsp = []
+    # 要這樣做是因為「日期」的格式問題。
+    result.each { |p|
+      rsp.push(
+          {
+              :id => p.id,
+              :ref_project_id => p.ref_project_id,
+              :ref_contributor_id => p.ref_contributor_id,
+              :date => p.date.strftime(DATE_FORMAT),
+              :amount => p.amount.to_f / 60,
+              :title => p.title,
+              :estimate => p.estimate.to_f / 60,
+              :description => p.description
+          })
+    }
+
+    render :json => rsp
+  end
+
+  def get_user_contributes
+    
+    user = Contributor.find(params[:user_id])
+    start_date = params[:start_date]
+    end_date = params[:end_date]
+
+    result = user.cp_contributes.order(:date => :desc)
+    result = result.start_date(start_date) if start_date
+    result = result.end_date(end_date) if end_date
 
     rsp = []
 
@@ -33,6 +60,7 @@ class CpcontributeController < ApplicationController
 
     render :json => rsp
   end
+
   # 列出目前使用者的全部 Contribute。
   def index
     result = CPContribute.foregin_info
@@ -171,9 +199,6 @@ class CpcontributeController < ApplicationController
     render :json => rsp
   end
 
-  def show
-  end
-
   def new
     cte = CPContribute.new
 
@@ -225,28 +250,32 @@ class CpcontributeController < ApplicationController
   end
 
   def edit
-    cte = CPContribute.find(params[:id])
+    cpc = CPContribute.where(:id => params[:id],:ref_contributor_id => current_user.id).first
 
-    if cte == nil
-      render :json => not_found(nil)
+    if cpc.nil?
+      render :status => 401,:json => not_found(nil)
+      return
     end
 
-    cte.ref_project_id = params[:ref_project_id] if params[:ref_project_id]
-    cte.date = params[:date] if params[:date]
-    cte.amount = params[:amount].to_f * 60 if params[:amount]
-    cte.description = params[:description] if params[:description]
-    cte.estimate = params[:estimate].to_f * 60 if params[:estimate]
-    cte.title = params[:title] if params[:title]
-    cte.save
+    cpc.ref_project_id = params[:ref_project_id] if params[:ref_project_id]
+    cpc.date = params[:date] if params[:date]
+    cpc.amount = params[:amount].to_f * 60 if params[:amount]
+    cpc.description = params[:description] if params[:description]
+    cpc.estimate = params[:estimate].to_f * 60 if params[:estimate]
+    cpc.title = params[:title] if params[:title]
+    cpc.save
 
     puts "真的數字是：#{params[:amount].to_f * 60}"
-    render :json => cte
+    render :json => cpc
   end
 
   def delete
     id = params[:id]
-
-    cpc = CPContribute.find(id)
+    cpc = CPContribute.where(:id => params[:id],:ref_contributor_id => current_user.id).first
+    if cpc.nil?
+      render :status => 401,:json => not_found(nil)
+      return
+    end
     cpc.destroy
 
     render :json => {:id => params[:id]}

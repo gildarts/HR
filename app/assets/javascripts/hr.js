@@ -15,6 +15,7 @@ var hr = angular.module('hr', ['ngRoute',
 		'checklist-model',
 		//'ui-grid-pinning',
 		'ui.grid.selection',
+		'ang-drag-drop',
     ])
     .config(config)
     .run(function($rootScope, hrGlobal) {

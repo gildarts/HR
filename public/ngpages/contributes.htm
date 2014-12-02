@@ -1,0 +1,69 @@
+<div class="btn-group">
+    <label style="margin: 2px;width: 80px" class="btn" ng-class="{true:'btn-primary',false:'btn-default'}[currentCtor.id==ctor.id]" ng-repeat="ctor in (contributors | orderBy:'name':'true')" ng-click="setCurrentCtor(ctor)">{{ctor.name}}
+    </label>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <input type="checkbox" ng-model="hideEstimate" >hide estimate</input>
+            <input type="checkbox" ng-model="hideDescription" >hide description</input>
+            <input type="checkbox" ng-model="hideAction" >hide action</input>
+            <style type="text/css">
+                .today {
+                    background-color: blanchedalmond;
+                }
+                .holiday {
+                    background-color: lightgray;
+                }
+            </style>
+            <table class="table table-hover my-table">
+                <thead>
+                    <tr class="success">
+                      <th></th>
+                      <th ng-repeat="d in days | orderObjectBy:'offset'" ng-class="{true:'today'}[d.offset==0]" >{{d.offset && d.day_of_week || 'Today'}}
+                        {{d.date}}</th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="t in titles">
+                    <th class="active">
+                        <div>
+                            {{t.ref_project.full_name}}
+                            <br>{{t.title}}
+                        </div>
+                    </th>
+                    <td ng-repeat="d in days | orderObjectBy:'offset'" style="max-width:20px" ng-class="{'today':d.offset==0,'holiday':d.day_of_week=='Sun' || d.day_of_week=='Sat'}" ui-on-Drop="onDrop($event,$data,$parent.t,d)" >
+                        <!-- <div ng-repeat="da in data[$parent.t.title_key+'@'+d.offset]">
+                            <span ng-show="!hideEstimate">
+                                {{da.estimate}}/
+                            </span>
+                                {{da.amount}}
+                            <pre ng-show="!hideDescription">{{da.description}}</pre>
+                        </div> -->
+                        <contribute ng-repeat="da in data[$parent.t.title_key+'@'+d.offset]" ng-model="da" hide-estimate="hideEstimate" hide-description="hideDescription" delete-callback="contributeDeleteCallback" hide-action="hideAction" ui-draggable="true" drag="da"></contribute>
+                        <a ng-click="createContribute(t,d)" ng-show="!hideAction"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                    </td>
+                </tr>
+            </table>
+            <script type="text/ng-template" id="/ngpages/contribute.html">
+                <span ng-show="!onEdit" >
+                    {{contribute.amount}} 
+                </span>
+                <span ng-show="onEdit" >
+                    <input type="text" style="width:25px" ng-model="contribute.amount" ng-keyup="editing($event)" ></input>
+                </span>
+                <span ng-show="!hideEstimate">
+                    <span ng-show="!onEdit" >
+                        / {{contribute.estimate}} 
+                    </span>
+                    <span ng-show="onEdit" >
+                        / <input type="text" style="width:25px" ng-model="contribute.estimate" ng-keyup="editing($event)"></input>
+                    </span>
+                </span>
+                <a ng-show="!hideAction" ng-click="delete()" ><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                <textarea ng-show="!hideDescription && onEdit" ng-model="contribute.description" ng-keyup="editing($event)"></textarea>
+                <pre ng-dblclick="onEdit=true" ng-show="!hideDescription && !onEdit">{{contribute.description}}</pre>
+                <!--<input type="checkbox" ng-model="onEdit">-->
+            </script>
+        </div>
+    </div>
+</div>
